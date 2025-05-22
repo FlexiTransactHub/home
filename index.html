@@ -3,196 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlexiTransact - Point of Sale Solutions</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>FlexiTransact - Empower Your SME with Seamless Payments</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #1a2533;
-      color: #e6e9ef;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1E3A8A 0%, #93C5FD 100%);
+      margin: 0;
+      min-height: 100vh;
     }
-    .gradient-text {
-      background: linear-gradient(90deg, #6366f1, #a855f7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .navbar {
+      background: #1E3A8A;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand, .nav-link {
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+    .nav-link:hover {
+      color: #3B82F6 !important;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      animation: fadeIn 1s ease-in;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .hero .btn-primary {
+      background: #3B82F6;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero .btn-primary:hover {
+      transform: scale(1.05);
+      background: #1E3A8A;
+    }
+    .powered-by {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .powered-by img {
+      height: 30px;
+    }
+    .container {
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      padding: 40px;
+      max-width: 600px;
+      margin: 40px auto;
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      font-size: 1.8rem;
+      color: #1E3A8A;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .form-control, .form-select, .form-check-input {
+      border-radius: 8px;
+      border: 1px solid #93C5FD;
+      transition: all 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #1E3A8A;
+      box-shadow: 0 0 5px rgba(30, 58, 138, 0.3);
+    }
+    .btn-primary {
+      background: #3B82F6;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+      background: #1E3A8A;
+    }
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #F8FAFC;
+      border-radius: 8px;
+      display: none;
+      border: 1px solid #E2E8F0;
+    }
+    #result h5 {
+      color: #1E3A8A;
+      font-weight: 600;
+    }
+    #result textarea {
+      width: 100%;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.9rem;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+    }
+    .analytics-teaser {
+      font-size: 0.9rem;
+      color: #4B5EAA;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .guide {
+      font-size: 0.85rem;
+      color: #4B5EAA;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .guide a {
+      color: #3B82F6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .guide a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-
-  <script type="text/babel">
-    function Navbar() {
-      const [isOpen, setIsOpen] = React.useState(false);
-
-      const toggleMenu = () => {
-        setIsOpen(!isOpen);
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">FlexiTransact</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="api.html">API Options</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="hero">
+    <h1>Empower Your SME with Seamless Payments</h1>
+    <p>Create professional payment links and buttons in seconds. Accept cards, USSD, bank transfers, and crypto.</p>
+    <a href="#form" class="btn btn-primary">Get Started Now</a>
+    <div class="powered-by">
+      <span>Powered by</span>
+      <img src="https://paystack.com/assets/img/logos/paystack-logo-dark.png" alt="Paystack">
+    </div>
+  </div>
+  <div class="container" id="form">
+    <h2>Create Your Payment Link</h2>
+    <form id="paymentForm">
+      <div class="mb-3">
+        <label for="productName" class="form-label">Product/Service Name</label>
+        <input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required>
+      </div>
+      <div class="mb-3">
+        <label for="amount" class="form-label">Price (₦)</label>
+        <input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required>
+      </div>
+      <div class="mb-3">
+        <label for="paystackKey" class="form-label">Paystack Public Key</label>
+        <input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456" required>
+      </div>
+      <div class="mb-3">
+        <label for="buttonColor" class="form-label">Button Color</label>
+        <select class="form-select" id="buttonColor">
+          <option value="navy">Navy Blue (Corporate)</option>
+          <option value="sky">Sky Blue (Modern)</option>
+          <option value="teal">Teal (Vibrant)</option>
+        </select>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="cryptoEnabled">
+        <label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
+    </form>
+    <div id="result">
+      <h5>Payment Link</h5>
+      <textarea id="paymentLink" rows="2" readonly></textarea>
+      <h5>Branded "Pay Now" Button</h5>
+      <textarea id="buttonCode" rows="4" readonly></textarea>
+      <h5>WhatsApp Share Link</h5>
+      <textarea id="whatsappLink" rows="2" readonly></textarea>
+      <h5>Iframe Embed Code</h5>
+      <textarea id="iframeCode" rows="4" readonly></textarea>
+      <p class="analytics-teaser">Track clicks and conversions with our premium plan (coming soon).</p>
+    </div>
+    <div class="guide">
+      <p>Need a Paystack key? <a href="https://paystack.com" target="_blank">Sign up free in 5 minutes</a>.</p>
+      <p>Find your public key in Paystack Dashboard > Settings > API Keys.</p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const productName = document.getElementById('productName').value;
+      const amount = document.getElementById('amount').value;
+      const paystackKey = document.getElementById('paystackKey').value;
+      const buttonColor = document.getElementById('buttonColor').value;
+      const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
+      
+      // Generate unique user ID
+      const userId = 'sme' + Math.floor(Math.random() * 10000);
+      
+      // Generate payment link
+      const paymentLink = `https://flexitransact.com.ng/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}`;
+      
+      // Generate button code
+      const colorStyles = {
+        navy: 'background: #1E3A8A; color: white;',
+        sky: 'background: #3B82F6; color: white;',
+        teal: 'background: #2DD4BF; color: white;'
       };
-
-      return (
-        <nav className="bg-[#1a2533] border-b border-[#2e3a50] py-4 px-6 sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold gradient-text">FlexiTransact</h1>
-            <div className="hidden md:flex space-x-6">
-              <a href="#home" className="hover:text-indigo-400 transition">Home</a>
-              <a href="#products" className="hover:text-indigo-400 transition">Products</a>
-              <a href="#about" className="hover:text-indigo-400 transition">About</a>
-              <a href="#contact" className="hover:text-indigo-400 transition">Contact</a>
-            </div>
-            <button
-              className="md:hidden text-gray-300 hover:text-indigo-400 focus:outline-none"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
-              </svg>
-            </button>
-          </div>
-          {isOpen && (
-            <div className="md:hidden mt-4 flex flex-col space-y-4">
-              <a href="#home" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Home</a>
-              <a href="#products" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Products</a>
-              <a href="#about" className="hover:text-indigo-400 transition" onClick={toggleMenu}>About</a>
-              <a href="#contact" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Contact</a>
-            </div>
-          )}
-        </nav>
-      );
-    }
-
-    function Hero() {
-      return (
-        <section id="home" className="py-20 px-6 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-              Streamline Your Business with FlexiTransact
-            </h2>
-            <p className="text-lg md:text-xl text-gray-300 mb-8">
-              Modern, reliable, and intuitive point of sale solutions for businesses of all sizes.
-            </p>
-            <a
-              href="#products"
-              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition"
-            >
-              Explore Products
-            </a>
-          </div>
-        </section>
-      );
-    }
-
-    function ProductCard({ title, description, image }) {
-      return (
-        <div className="bg-[#2e3a50] rounded-lg p-6 shadow-lg hover:shadow-xl transition">
-          <img src={image} alt={title} className="w-full h-48 object-cover rounded-md mb-4" />
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-gray-300 mb-4">{description}</p>
-          <a
-            href="#contact"
-            className="text-indigo-400 hover:text-indigo-300 font-semibold"
-          >
-            Learn More
-          </a>
-        </div>
-      );
-    }
-
-    function Products() {
-      const products = [
-        {
-          title: "FlexiPOS Terminal",
-          description: "A sleek, all-in-one POS terminal with fast processing and intuitive software.",
-          image: "https://via.placeholder.com/300x200?text=POS+Terminal",
-        },
-        {
-          title: "FlexiPOS Software",
-          description: "Cloud-based software for seamless inventory, sales, and customer management.",
-          image: "https://via.placeholder.com/300x200?text=POS+Software",
-        },
-      ];
-
-      return (
-        <section id="products" className="py-16 px-6 bg-[#222b3d]">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 gradient-text">Our Products</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {products.map((product, index) => (
-                <ProductCard
-                  key={index}
-                  title={product.title}
-                  description={product.description}
-                  image={product.image}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    }
-
-    function About() {
-      return (
-        <section id="about" className="py-16 px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 gradient-text">About FlexiTransact</h2>
-            <p className="text-gray-300 text-lg">
-              At FlexiTransact, we empower businesses with cutting-edge point of sale solutions. Our
-              hardware and software are designed to simplify transactions, enhance customer experiences,
-              and drive growth.
-            </p>
-          </div>
-        </section>
-      );
-    }
-
-    function Contact() {
-      return (
-        <section id="contact" className="py-16 px-6 bg-[#222b3d]">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 gradient-text">Get in Touch</h2>
-            <p className="text-gray-300 text-lg mb-8">
-              Ready to transform your business? Contact us today to learn more about our solutions.
-            </p>
-            <a
-              href="mailto:info@flexitransact.com"
-              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition"
-            >
-              Contact Us
-            </a>
-          </div>
-        </section>
-      );
-    }
-
-    function Footer() {
-      return (
-        <footer className="bg-[#1a2533] border-t border-[#2e3a50] py-6 px-6 text-center">
-          <p className="text-gray-400">
-            © 2025 FlexiTransact. All rights reserved.
-          </p>
-        </footer>
-      );
-    }
-
-    function App() {
-      return (
-        <div>
-          <Navbar />
-          <Hero />
-          <Products />
-          <About />
-          <Contact />
-          <Footer />
-        </div>
-      );
-    }
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+      const buttonCode = `<a href="${paymentLink}" style="${colorStyles[buttonColor]} padding: 12px 20px; border-radius: 8px; text-decoration: none; font-family: Poppins, sans-serif; display: inline-block; font-weight: 600;">Pay Now</a>`;
+      
+      // Generate WhatsApp share link
+      const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${paymentLink}`;
+      const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Generate iframe code
+      const iframeCode = `<iframe src="${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
+      
+      // Display results
+      document.getElementById('paymentLink').value = paymentLink;
+      document.getElementById('buttonCode').value = buttonCode;
+      document.getElementById('whatsappLink').value = whatsappLink;
+      document.getElementById('iframeCode').value = iframeCode;
+      document.getElementById('result').style.display = 'block';
+    });
   </script>
 </body>
 </html>
