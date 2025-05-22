@@ -6,12 +6,16 @@
   <title>FlexiTransact - API Integration Options</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="ftlogo.png" type="image/png">
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #1E3A8A 0%, #93C5FD 100%);
       margin: 0;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .navbar {
       background: #1E3A8A;
@@ -21,7 +25,18 @@
       z-index: 1000;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .navbar-brand, .nav-link {
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+    .navbar-brand img {
+      height: 30px;
+      width: 30%;
+      margin-right: 10px;
+    }
+    .nav-link {
       color: #FFFFFF !important;
       font-weight: 600;
     }
@@ -73,12 +88,26 @@
       transform: scale(1.05);
       background: #1E3A8A;
     }
+    footer {
+      background: #1E3A8A;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      font-size: 0.85rem;
+    }
+    footer p {
+      margin: 0;
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">FlexiTransact</a>
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" alt="FlexiTransact Logo">
+        FlexiTransact
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -150,6 +179,9 @@ echo $data['data']['authorization_url'];
     </pre>
     <p><a href="https://developers.paystack.com/docs" target="_blank" class="btn btn-primary">Explore Paystack API Docs</a></p>
   </div>
+  <footer>
+    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
