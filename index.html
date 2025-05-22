@@ -1,611 +1,198 @@
- 
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-    <head>
-    	<!-- meta character set -->
-        <meta charset="utf-8">
-		<!-- Always force latest IE rendering engine or request Chrome Frame -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>FlexiTransact</title>	
-		<link rel="icon" href="ftlogo.png" type="image/x-icon">	
-		<!-- Meta Description -->
-        <meta name="description" content="FlexiTransact home page, buy the best financial technology">
-        <meta name="keywords" content="POS, Point Of Sale, flexitransact, fintech, flexible transactions, Richard Nwonah, Payment gateway, money, technology">
-        <meta name="author" content="Richard Nwonah">
-		
-		<!-- Mobile Specific Meta -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!-- CSS
-		================================================== -->
-		
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-		
-		<!-- Fontawesome Icon font -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/jquery.fancybox.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/owl.carousel.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/slit-slider.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="css/animate.css">
-		<!-- Main Stylesheet -->
-        <link rel="stylesheet" href="css/main.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexiTransact - Point of Sale Solutions</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #1a2533;
+      color: #e6e9ef;
+      font-family: 'Inter', sans-serif;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
 
-		<!-- Modernizer Script for old Browsers -->
-        <script src="js/modernizr-2.6.2.min.js"></script>
+  <script type="text/babel">
+    function Navbar() {
+      const [isOpen, setIsOpen] = React.useState(false);
 
-    </head>
-	
-    <body id="body">
+      const toggleMenu = () => {
+        setIsOpen(!isOpen);
+      };
 
-		<!-- preloader -->
-		<!--<div id="preloader">
-            <div class="loder-box">
-            	<div class="battery"></div>
+      return (
+        <nav className="bg-[#1a2533] border-b border-[#2e3a50] py-4 px-6 sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 className="text-2xl font-bold gradient-text">FlexiTransact</h1>
+            <div className="hidden md:flex space-x-6">
+              <a href="#home" className="hover:text-indigo-400 transition">Home</a>
+              <a href="#products" className="hover:text-indigo-400 transition">Products</a>
+              <a href="#about" className="hover:text-indigo-400 transition">About</a>
+              <a href="#contact" className="hover:text-indigo-400 transition">Contact</a>
             </div>
-		</div> -->
-		<!-- end preloader -->
-
-        <!--
-        Fixed Navigation
-        ==================================== -->
-        <header id="navigation" class="navbar-inverse navbar-fixed-top animated-header">
-            <div class="container">
-                <div class="navbar-header">
-                    <!-- responsive nav button -->
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-                    </button>
-					<!-- /responsive nav button -->
-					
-					<!-- logo -->
-					<h1 class="navbar-brand">
-						 <a href="#body">FlexiTransact</a>
-						<!-- <a href="#body"><img src="ftlogo.png" width="10%">  FlexiTransact</a> -->
-					</h1>
-					<!-- <img src="ftlogo.png" width="10%">  -->
-					<!-- /logo -->
-                </div>
-
-				<!-- main nav -->
-                <nav class="collapse navbar-collapse navbar-right" role="navigation">
-                    <ul id="nav" class="nav navbar-nav">
-                        <li><a href="#body">Home</a></li>
-                        <li><a href="#service">Service</a></li>
-                        <li><a href="#portfolio">portfolio</a></li>
-                        <li><a href="#testimonials">Testimonial</a></li>
-                        <li><a href="#price">price</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-				<!-- /main nav -->
-				
+            <button
+              className="md:hidden text-gray-300 hover:text-indigo-400 focus:outline-none"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
+              </svg>
+            </button>
+          </div>
+          {isOpen && (
+            <div className="md:hidden mt-4 flex flex-col space-y-4">
+              <a href="#home" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Home</a>
+              <a href="#products" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Products</a>
+              <a href="#about" className="hover:text-indigo-400 transition" onClick={toggleMenu}>About</a>
+              <a href="#contact" className="hover:text-indigo-400 transition" onClick={toggleMenu}>Contact</a>
             </div>
-        </header>
-        <!--
-        End Fixed Navigation
-        ==================================== -->
-		
-		<main class="site-content" role="main">
-		
-        <!--
-        Home Slider
-        ==================================== -->
-		
-		<section id="home-slider">
-            <div id="slider" class="sl-slider-wrapper">
+          )}
+        </nav>
+      );
+    }
 
-				<div class="sl-slider">
-				
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+    function Hero() {
+      return (
+        <section id="home" className="py-20 px-6 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+              Streamline Your Business with FlexiTransact
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 mb-8">
+              Modern, reliable, and intuitive point of sale solutions for businesses of all sizes.
+            </p>
+            <a
+              href="#products"
+              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition"
+            >
+              Explore Products
+            </a>
+          </div>
+        </section>
+      );
+    }
 
-						<div class="bg-img bg-img-1"></div>
+    function ProductCard({ title, description, image }) {
+      return (
+        <div className="bg-[#2e3a50] rounded-lg p-6 shadow-lg hover:shadow-xl transition">
+          <img src={image} alt={title} className="w-full h-48 object-cover rounded-md mb-4" />
+          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-gray-300 mb-4">{description}</p>
+          <a
+            href="#contact"
+            className="text-indigo-400 hover:text-indigo-300 font-semibold"
+          >
+            Learn More
+          </a>
+        </div>
+      );
+    }
 
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2 class="animated fadeInDown">FLEXI Simple Business Payments</h2>
-                                <span class="animated fadeInDown">Elegant and Seamless Solutions for Every Transaction</span>
-                                <a href="" target="_blank" class="btn btn-blue btn-effect">Book a Demo</a>
-                            </div>
-                        </div>
-						
-					</div>
-					
-					<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
-					
-						<div class="bg-img bg-img-2"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>FLEXI Banking Solutions Suite</h2>
-                                <span>Innovative Hardware, Software, and Payment Gateway Integration</span>
-                                <a href="#" class="btn btn-blue btn-effect">Contact us</a>
-                            </div>
-                        </div>
-						
-					</div>
-					
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
-						
-						<div class="bg-img bg-img-3"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>FLEXI POS for Businesses</h2>
-                                <span>Smart Hardware, Software, and Payment Solutions for Growth</span>
-                                <a href="#" class="btn btn-blue btn-effect">Purchase</a>
-                            </div>
-                        </div>
+    function Products() {
+      const products = [
+        {
+          title: "FlexiPOS Terminal",
+          description: "A sleek, all-in-one POS terminal with fast processing and intuitive software.",
+          image: "https://via.placeholder.com/300x200?text=POS+Terminal",
+        },
+        {
+          title: "FlexiPOS Software",
+          description: "Cloud-based software for seamless inventory, sales, and customer management.",
+          image: "https://via.placeholder.com/300x200?text=POS+Software",
+        },
+      ];
 
-					</div>
+      return (
+        <section id="products" className="py-16 px-6 bg-[#222b3d]">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12 gradient-text">Our Products</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {products.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  title={product.title}
+                  description={product.description}
+                  image={product.image}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
 
-				</div><!-- /sl-slider -->
+    function About() {
+      return (
+        <section id="about" className="py-16 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6 gradient-text">About FlexiTransact</h2>
+            <p className="text-gray-300 text-lg">
+              At FlexiTransact, we empower businesses with cutting-edge point of sale solutions. Our
+              hardware and software are designed to simplify transactions, enhance customer experiences,
+              and drive growth.
+            </p>
+          </div>
+        </section>
+      );
+    }
 
-                <!-- 
-                <nav id="nav-arrows" class="nav-arrows">
-                    <span class="nav-arrow-prev">Previous</span>
-                    <span class="nav-arrow-next">Next</span>
-                </nav>
-                -->
-                
-                <nav id="nav-arrows" class="nav-arrows hidden-xs hidden-sm visible-md visible-lg">
-                    <a href="javascript:;" class="sl-prev">
-                        <i class="fa fa-angle-left fa-3x"></i>
-                    </a>
-                    <a href="javascript:;" class="sl-next">
-                        <i class="fa fa-angle-right fa-3x"></i>
-                    </a>
-                </nav>
-                
+    function Contact() {
+      return (
+        <section id="contact" className="py-16 px-6 bg-[#222b3d]">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6 gradient-text">Get in Touch</h2>
+            <p className="text-gray-300 text-lg mb-8">
+              Ready to transform your business? Contact us today to learn more about our solutions.
+            </p>
+            <a
+              href="mailto:info@flexitransact.com"
+              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition"
+            >
+              Contact Us
+            </a>
+          </div>
+        </section>
+      );
+    }
 
-				<nav id="nav-dots" class="nav-dots visible-xs visible-sm hidden-md hidden-lg">
-					<span class="nav-dot-current"></span>
-					<span></span>
-					<span></span>
-				</nav>
+    function Footer() {
+      return (
+        <footer className="bg-[#1a2533] border-t border-[#2e3a50] py-6 px-6 text-center">
+          <p className="text-gray-400">
+            © 2025 FlexiTransact. All rights reserved.
+          </p>
+        </footer>
+      );
+    }
 
-			</div><!-- /slider-wrapper -->
-		</section>
-		
-        <!--
-        End Home SliderEnd
-        ==================================== -->
-			
-			<!-- about section -->
-			<section id="about" >
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4 wow animated fadeInLeft">
-							<div class="recent-works">
-								<h3>Recent Works</h3>
-								<div id="works">
-									<div class="work-item">
-										<p>
-											FlexiTransact’s new Point of Sale system blends advanced hardware with intuitive software for seamless transactions. Designed for today’s market, 
-											it empowers businesses with reliability and performance across Africa.</p>
-									</div>
-									<div class="work-item">
-										<p>FlexiTransact’s new Payment Gateway ensures secure, fast, and reliable transactions across multiple channels.
-											 Designed for scalability, it integrates smoothly with systems, helping businesses grow and thrive.</p>
-									</div>
-									<div class="work-item">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br><br> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-7 col-md-offset-1 wow animated fadeInRight">
-							<div class="welcome-block">
-								<h3>Welcome to FlexiTransact</h3>								
-						     	 <div class="message-body">
-									<img src="img/member-1.jpg" class="pull-left" alt="member">
-						       		<p>I’m Richard Nwonah, CEO of FlexiTransact. We provide POS hardware, 
-										financial software, and payment solutions for African businesses.
-										 Our mission is to simplify transactions, drive growth, and help businesses thrive. 
-										Let’s build a future where success is within reach.</p>
-						     	 </div>
-						       	<a href="#" class="btn btn-border btn-effect pull-right">Read More</a>
-						    </div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- end about section -->
-			
-			
-			<!-- Service section -->
-			<section id="service">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center">
-							<h2 class="wow animated bounceInLeft">Service</h2>
-							<p class="wow animated bounceInRight">The Key Features of our Job</p>
-						</div>
-						
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-home fa-3x"></i>
-								</div>
-								<h3>Support</h3>
-								<p>Get round-the-clock assistance for all your financial transaction needs. Flexi Transact ensures seamless integration and resolves any challenges promptly. </p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.3s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-tasks fa-3x"></i>
-								</div>
-								<h3>Well Documented</h3>
-								<p>Our solutions come with comprehensive guides and documentation, making it easy for you to set up, operate, and maintain your POS systems effortlessly. </p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.6s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-clock-o fa-3x"></i>
-								</div>
-								<h3>Design UI/UX</h3>
-								<p>Experience intuitive and user-friendly interfaces tailored for your business, ensuring efficient operations and a great customer experience.</p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.9s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-heart fa-3x"></i>
-								</div>
-								
-								<h3>Web Security</h3>
-								<p>Protect your transactions with state-of-the-art security measures, ensuring your business data and customer information are safe from threats.</p>							
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</section>
-			<!-- end Service section -->
-			
-			<!-- portfolio section -->
-			<section id="portfolio">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>FEATURED PROJECTS</h2>
-							<p>Exploring innovative solutions to empower businesses, Flexi Transact is shaping the future of seamless transactions and smart financial tools.</p>
-						</div>
-						
+    function App() {
+      return (
+        <div>
+          <Navbar />
+          <Hero />
+          <Products />
+          <About />
+          <Contact />
+          <Footer />
+        </div>
+      );
+    }
 
-						<ul class="project-wrapper wow animated fadeInUp">
-							<li class="portfolio-item">
-								<img src="img/portfolio/item.jpg" class="img-responsive" alt="Sleek, durable POS with FlexiPOS software for seamless business operations, inventory, and analytics.">
-								<figcaption class="mask">
-									<h3>HP Engage One</h3>
-									<p>Durable POS with touchscreen & smart FlexiPOS software. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="HP Engage One" data-fancybox-group="works" href="img/portfolio/item.jpg"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<img src="img/portfolio/item2.jpg" class="img-responsive" alt="Secure, scalable core banking for microfinance and startups.">
-								<figcaption class="mask">
-									<h3>Flexi Core Bank</h3>
-									<p>Secure, scalable core banking for microfinance and startups.</p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street" href="img/slider/banner.jpg" data-fancybox-group="works" ><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							 <li class="portfolio-item">
-								<img src="img/portfolio/item3.jpg" class="img-responsive" alt="Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. ">
-								<figcaption class="mask">
-									<h3>FlexiPay Gateway</h3>
-									<p>Seamless, secure, and scalable payment gateway for businesses across Africa. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Behind The world" data-fancybox-group="works" href="img/portfolio/item3.jpg"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<!-- <li class="portfolio-item">
-								<img src="img/portfolio/item4.jpg" class="img-responsive" alt="Lorem Ipsum is simply dummy text of the printing and typesetting ndustry.">
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 4" data-fancybox-group="works" href="img/portfolio/item4.jpg"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<img src="img/portfolio/item5.jpg" class="img-responsive" alt="Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. ">
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 5" data-fancybox-group="works" href="img/portfolio/item5.jpg"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<img src="img/portfolio/item6.jpg" class="img-responsive" alt="Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. ">
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 6" data-fancybox-group="works" href="img/portfolio/item6.jpg"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-						</ul>
-						
-					</div> -->
-				</div>
-			</section>
-			<!-- end portfolio section -->
-			
-			<!-- Testimonial section -->
-			<section id="testimonials" class="parallax">
-				<div class="overlay">
-					<div class="container">
-						<div class="row">
-						
-							<div class="sec-title text-center white wow animated fadeInDown">
-								<h2>What people say</h2>
-							</div>
-							
-							<div id="testimonial" class=" wow animated fadeInUp">
-								<div class="testimonial-item text-center">
-									<img src="img/clients/nabza.jpg" alt="Our Clients">
-									<div class="clearfix">
-										<span>NABZA Foods</span>
-										<p>Flexi Transact delivered an exceptional inventory and sales tracker tailored to our needs. The app has transformed our operations, streamlining processes and improving efficiency. We couldn’t be happier with the results and the professionalism of their team.</p>
-									</div>
-								</div>
-								<div class="testimonial-item text-center">
-									<img src="img/clients/zee.jpg" alt="Our Clients">
-									<div class="clearfix">
-										<span>ZMajor</span>
-										<p>Flexi Transact’s software has been a game-changer for my business. It made receiving payments from clients seamless and helped me organize my inventory effortlessly. Their solution has truly simplified my workflow and boosted my productivity.</p>
-									</div>
-								</div>
-								<div class="testimonial-item text-center">
-									<img src="img/clients/nabza.jpg" alt="Our Clients">
-									<div class="clearfix">
-										<span>Nwonah Farms</span>
-										<p>Flexi Transact’s technology has been invaluable for Nwonah Farms. It helps us efficiently manage inventory, livestock, payments, and customer support, streamlining our operations and ensuring everything runs smoothly. A truly transformative solution!</p>
-									</div>
-								</div>
-							</div>
-						
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- end Testimonial section -->
-			
-			<!-- Price section -->
-			<section id="price">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>Price</h2>
-							<p>FPP price list.</p>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp">
-							<div class="price-table text-center">
-								<span>Basic Plan</span>
-								<div class="value">
-									<span>₦</span>
-									<span>12,000</span><br>
-									<span>month</span>
-								</div>
-								<ul>
-									<li>500 Expected Users</li>
-									<li>Monthly Revenue: ₦6,000,000.00</li>
-									<li>POS Devices: 2</li>
-									<li>Target Profit Margin: 35.0%</li>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.4s">
-							<div class="price-table featured text-center">
-								<span>Pro Plan</span>
-								<div class="value">
-									<span>₦</span>
-									<span>25,000</span><br>
-									<span>month</span>
-								</div>
-								<ul>
-									<li>300 Expected Users</li>
-									<li>Monthly Revenue: ₦7,500,000</li>
-									<li>POS Devices: 5</li>
-									<li>Target Profit Margin: 35.0%</li>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.8s">
-							<div class="price-table text-center">
-								<span>Enterprise Plan</span>
-								<div class="value">
-									<span>₦</span>
-									<span>60,000</span><br>
-									<span>month</span>
-								</div>
-								<ul>
-									<li>100 Expected Users</li>
-									<li>Monthly Revenue: ₦6,000,000.00</li>
-									<li>POS Devices: Unlimited</li>
-									<li>Actual Profit Margin: 92.31%</li>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-						
-		
-					</div>
-				</div>
-			</section>
-			<!-- end Price section -->
-			
-			<!-- Social section -->
-			<section id="social" class="parallax">
-				<div class="overlay">
-					<div class="container">
-						<div class="row">
-						
-							<div class="sec-title text-center white wow animated fadeInDown">
-								<h2>FOLLOW US</h2>
-								<p>Beautifully simple follow buttons to help you get followers on</p>
-							</div>
-							
-							<ul class="social-button">
-								<li class="wow animated zoomIn"><a href="#"><i class="fa fa-thumbs-up fa-2x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="#"><i class="fa fa-twitter fa-2x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i class="fa fa-dribbble fa-2x"></i></a></li>							
-							</ul>
-							
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- end Social section -->
-			
-			<!-- Contact section -->
-			<section id="contact" >
-				<div class="container">
-					<div class="row">
-						
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>Contact</h2>
-							<p>Leave a Message</p>
-						</div>
-						
-						
-						<div class="col-md-7 contact-form wow animated fadeInLeft">
-							<form action="#" method="post">
-								<div class="input-field">
-									<input type="text" name="name" class="form-control" placeholder="Your Name...">
-								</div>
-								<div class="input-field">
-									<input type="email" name="email" class="form-control" placeholder="Your Email...">
-								</div>
-								<div class="input-field">
-									<input type="text" name="subject" class="form-control" placeholder="Subject...">
-								</div>
-								<div class="input-field">
-									<textarea name="message" class="form-control" placeholder="Messages..."></textarea>
-								</div>
-						       	<button type="submit" id="submit" class="btn btn-blue btn-effect">Send</button>
-							</form>
-						</div>
-						
-						<div class="col-md-5 wow animated fadeInRight">
-							<address class="contact-details">
-								<h3>Contact Us</h3>						
-								<p><i class="fa fa-pencil"></i>Flexitransact Inc. <span>Thassious house, Okota </span><span>Lagos</span></p><br>
-								<p><i class="fa fa-phone"></i>Phone: +234 7025036580</p>
-								<p><i class="fa fa-envelope"></i>flexitransact@outlook.com</p>
-							</address>
-						</div>
-			
-					</div>
-				</div>
-			</section>
-			<!-- end Contact section -->
-			
-			<section id="google-map">
-				<div id="map-canvas" class="wow animated fadeInUp"></div>
-			</section>
-		
-		</main>
-		
-		<footer id="footer">
-			<div class="container">
-				<div class="row text-center">
-					<div class="footer-content">
-						<div class="wow animated fadeInDown">
-							<p>newsletter signup</p>
-							<p>Get free business handouts! We hate spam!</p>
-						</div>
-						<form action="#" method="post" class="subscribe-form wow animated fadeInUp">
-							<div class="input-field">
-								<input type="email" class="subscribe form-control" placeholder="Enter Your Email...">
-								<button type="submit" class="submit-icon">
-									<i class="fa fa-paper-plane fa-lg"></i>
-								</button>
-							</div>
-						</form>
-						<div class="footer-social">
-							<ul>
-								<li class="wow animated zoomIn"><a href="#"><i class="fa fa-thumbs-up fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="#"><i class="fa fa-twitter fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i class="fa fa-skype fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.9s"><a href="#"><i class="fa fa-dribbble fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="1.2s"><a href="#"><i class="fa fa-youtube fa-3x"></i></a></li>
-							</ul>
-						</div>
-						
-						<p>Copyright &copy; 2025 Design and Developed By <a href="https://flexitransacthub.github.io/home/">FlexiTransact</a> 
-							
-						</p>
-					</div>
-				</div>
-			</div>
-		</footer>
-		
-		<!-- Essential jQuery Plugins
-		================================================== -->
-		<!-- Main jQuery -->
-        <script src="js/jquery-1.11.1.min.js"></script>
-		<!-- Twitter Bootstrap -->
-        <script src="js/bootstrap.min.js"></script>
-		<!-- Single Page Nav -->
-        <script src="js/jquery.singlePageNav.min.js"></script>
-		<!-- jquery.fancybox.pack -->
-        <script src="js/jquery.fancybox.pack.js"></script>
-		<!-- Google Map API -->
-		<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-		<!-- Owl Carousel -->
-        <script src="js/owl.carousel.min.js"></script>
-        <!-- jquery easing -->
-        <script src="js/jquery.easing.min.js"></script>
-        <!-- Fullscreen slider -->
-        <script src="js/jquery.slitslider.js"></script>
-        <script src="js/jquery.ba-cond.min.js"></script>
-		<!-- onscroll animation -->
-        <script src="js/wow.min.js"></script>
-		<!-- Custom Functions -->
-        <script src="js/main.js"></script>
-    </body>
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
 </html>
