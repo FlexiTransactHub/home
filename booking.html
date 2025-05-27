@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlexiTransact - API Integration Options</title>
+  <title>Book a Meeting - FlexiTransact</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="ftlogo.png" type="image/png">
@@ -67,26 +67,11 @@
       font-size: 1rem;
       margin-bottom: 20px;
     }
-    pre {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 8px;
-      padding: 15px;
-      font-size: 0.9rem;
-      overflow-x: auto;
-    }
-    .btn-primary {
-      background: #3B82F6;
+    .calendly-iframe {
+      width: 100%;
+      height: 600px;
       border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: scale(1.05);
-      background: #1E3A8A;
+      margin-top: 20px;
     }
     footer {
       background: #1E3A8A;
@@ -117,7 +102,7 @@
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="api.html">API Options</a>
+            <a class="nav-link" href="api.html">API Options</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about.html">About</a>
@@ -130,57 +115,9 @@
     </div>
   </nav>
   <div class="container">
-    <h1>Integrate Payments with Paystack API</h1>
-    <p>Take your SME to the next level by integrating Paystack’s powerful API into your website or app. Accept payments seamlessly, including crypto (Bitcoin, USDT).</p>
-    <h2>Getting Started</h2>
-    <p>1. Sign up for a <a href="https://paystack.com" target="_blank">Paystack account</a>.</p>
-    <p>2. Get your API keys from Paystack Dashboard > Settings > API Keys.</p>
-    <p>3. Use the code snippets below to integrate payments.</p>
-    <h2>Node.js Example</h2>
-    <pre>
-const fetch = require('node-fetch');
-
-async function initializePayment(email, amount) {
-  const response = await fetch('https://api.paystack.co/transaction/initialize', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer YOUR_SECRET_KEY',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      amount: amount * 100, // Convert to kobo
-      channels: ['card', 'bank', 'ussd', 'crypto']
-    })
-  });
-  const data = await response.json();
-  return data.data.authorization_url;
-}
-    </pre>
-    <h2>PHP Example</h2>
-    <pre>
-<?php
-$curl = curl_init();
-curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.paystack.co/transaction/initialize",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => json_encode([
-    'email' => 'customer@example.com',
-    'amount' => 50000 * 100, // Convert to kobo
-    'channels' => ['card', 'bank', 'ussd', 'crypto']
-  ]),
-  CURLOPT_HTTPHEADER => [
-    "Authorization: Bearer YOUR_SECRET_KEY",
-    "Content-Type: application/json"
-  ]
-]);
-$response = curl_exec($curl);
-$data = json_decode($response, true);
-echo $data['data']['authorization_url'];
-?>
-    </pre>
-    <p><a href="https://developers.paystack.com/docs" target="_blank" class="btn btn-primary">Explore Paystack API Docs</a></p>
+    <h1>Book a Meeting with FlexiTransact</h1>
+    <p>Schedule a quick call to discover how FlexiTransact can empower your SME with seamless payment solutions. Choose a time that suits you, and we’ll send a confirmation with a meeting link.</p>
+    <iframe class="calendly-iframe" src="https://calendly.com/YOUR_CALENDLY_USERNAME/30min"></iframe>
   </div>
   <footer>
     <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
