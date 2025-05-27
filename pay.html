@@ -96,38 +96,13 @@
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">
-        <img src="logo.png" alt="FlexiTransact Logo">
-        FlexiTransact
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="api.html">API Options</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+ 
   <div class="container">
     <h2>Pay for <span id="product"></span></h2>
     <p>Amount: ₦<span id="amount"></span></p>
     <button class="btn btn-primary" onclick="startPayment()">Pay Now</button>
   </div>
-  <footer>
-    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
-  </footer>
+
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <script>
     // Parse URL parameters
