@@ -13,7 +13,7 @@
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "rq3x9ftpx3");
-</script>
+  </script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -73,8 +73,7 @@
       color: #4B5EAA;
       margin-bottom: 20px;
     }
-    .btn-primary {
-      background: #3B82F6;
+    .btn-primary, .btn-crypto, .btn-giftcard {
       border: none;
       border-radius: 8px;
       padding: 12px;
@@ -83,10 +82,30 @@
       transition: transform 0.3s ease, background 0.3s ease;
       width: 100%;
       max-width: 300px;
+      margin: 10px 0;
+    }
+    .btn-primary {
+      background: #3B82F6;
+    }
+    .btn-crypto {
+      background: #FFD700;
+      color: #1E3A8A;
+    }
+    .btn-giftcard {
+      background: #FF6347;
+      color: #FFFFFF;
+    }
+    .btn-primary:hover, .btn-crypto:hover, .btn-giftcard:hover {
+      transform: scale(1.05);
     }
     .btn-primary:hover {
-      transform: scale(1.05);
       background: #1E3A8A;
+    }
+    .btn-crypto:hover {
+      background: #FFC107;
+    }
+    .btn-giftcard:hover {
+      background: #FF4500;
     }
     footer {
       background: #1E3A8A;
@@ -102,13 +121,18 @@
   </style>
 </head>
 <body>
- 
   <div class="container">
     <a href="index.html"><img src="logoft.png" alt="FlexiTransact Logo"></a>
     <h2>Pay for <span id="product"></span></h2>
     <p>Amount: ₦<span id="amount"></span></p>
     <button class="btn btn-primary" onclick="startPayment()">Pay Now</button>
+    <button class="btn btn-crypto" onclick="payWithCrypto()">Pay with Crypto</button>
+    <button class="btn btn-giftcard" onclick="payWithGiftCard()">Pay with Gift Card</button>
   </div>
+
+  <footer>
+    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
+  </footer>
 
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <script>
@@ -127,11 +151,11 @@
     function startPayment() {
       PaystackPop.setup({
         key: paystackKey,
-        email: prompt('Enter your email:'), // Can be improved with a form
-        amount: parseInt(amount) * 100, // Convert to kobo
-        ref: 'FTX_' + Math.floor(Math.random() * 1000000), // Unique transaction ref
-        metadata: { user_id: user, crypto_enabled: cryptoEnabled }, // For webhook tracking
-        channels: cryptoEnabled ? ['card', 'bank', 'ussd', 'crypto'] : ['card', 'bank', 'ussd'], // Enable crypto if selected
+        email: prompt('Enter your email:'),
+        amount: parseInt(amount) * 100,
+        ref: 'FTX_' + Math.floor(Math.random() * 1000000),
+        metadata: { user_id: user, crypto_enabled: cryptoEnabled },
+        channels: cryptoEnabled ? ['card', 'bank', 'ussd', 'crypto'] : ['card', 'bank', 'ussd'],
         onClose: function() {
           alert('Payment cancelled');
         },
@@ -141,6 +165,14 @@
           window.location.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
         }
       }).openIframe();
+    }
+
+    function payWithCrypto() {
+      window.location.href = `crypto-payment.html?user=${user}&amount=${amount}&product=${encodeURIComponent(product)}`;
+    }
+
+    function payWithGiftCard() {
+      window.location.href = `giftcard-payment.html?user=${user}&amount=${amount}&product=${encodeURIComponent(product)}`;
     }
   </script>
 </body>
