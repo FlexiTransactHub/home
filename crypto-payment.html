@@ -5,83 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlexiTransact - Crypto Payment</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="ftlogo.png" type="image/png">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #FFD700 0%, #FFFACD 100%);
+      background: #0D0F14;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       margin: 0;
-      color: #1E3A8A;
-    }
-    .navbar {
-      background: #DAA520;
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .navbar-brand {
-      display: flex;
+      color: #FFFFFF;
+      justify-content: center;
       align-items: center;
-      color: #FFFFFF !important;
-      font-weight: 600;
     }
-    img {
-      height: 24px;
-      width: 24%;
-      margin-right: 10px;
+    .logo-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: -40px;
     }
-    .nav-link {
-      color: #FFFFFF !important;
-      font-weight: 600;
-    }
-    .nav-link:hover {
-      color: #FFD700 !important;
+    .logo {
+      position: relative;
+      top: -40px;
+      height: 80px;
+      width: 80%;
+      max-width: 200px;
+      z-index: 1;
     }
     .container {
-      background: #FFFFFF;
+      background: #1A1C24;
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       padding: 40px;
       max-width: 600px;
-      margin: 40px auto;
       text-align: center;
       animation: fadeIn 0.5s ease-in;
+      border: 1px solid #2A2D38;
+      position: relative;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     h2 {
-      color: #DAA520;
-      font-weight: 600;
+      color: #F0B90B;
+      font-weight: 700;
       margin-bottom: 20px;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+      text-shadow: 0 0 5px rgba(240, 185, 11, 0.5);
     }
     p {
-      color: #4B5EAA;
+      color: #A9A9A9;
       margin-bottom: 20px;
     }
     .btn-crypto {
-      background: #FFD700;
+      background: #F0B90B;
       border: none;
       border-radius: 8px;
       padding: 12px;
       font-size: 1.1rem;
       font-weight: 600;
-      color: #1E3A8A;
+      color: #0D0F14;
       transition: transform 0.3s ease, background 0.3s ease;
       width: 100%;
       max-width: 300px;
     }
     .btn-crypto:hover {
       transform: scale(1.05);
-      background: #FFAA00;
+      background: #FFC107;
     }
     .btn-share {
       background: #1DA1F2;
@@ -103,51 +94,17 @@
     .crypto-prices {
       margin-top: 20px;
       padding: 15px;
-      background: #F8FAFC;
+      background: #2A2D38;
       border-radius: 8px;
-      border: 1px solid #E2E8F0;
-    }
-    footer {
-      background: #DAA520;
+      border: 1px solid #3A3E4E;
       color: #FFFFFF;
-      text-align: center;
-      padding: 20px;
-      margin-top: auto;
-      font-size: 0.85rem;
-    }
-    footer p {
-      margin: 0;
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">
-        <img src="logoft.png" alt="FlexiTransact Logo">
-        FlexiTransact
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="api.html">API Options</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="book.html">Book a Meeting</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div class="logo-container">
+    <img src="logoft.png" alt="FlexiTransact Logo" class="logo">
+  </div>
 
   <div class="container">
     <h2>Pay for <span id="product"></span> with Crypto</h2>
@@ -159,10 +116,6 @@
     <button class="btn btn-crypto" onclick="payWithCrypto()">Pay with Crypto</button>
     <button class="btn btn-share" onclick="shareOnTwitter()" style="display: none;" id="shareButton">Share Payment on Twitter</button>
   </div>
-
-  <footer>
-    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
-  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -176,16 +129,23 @@
     document.getElementById('product').textContent = product;
     document.getElementById('amount').textContent = amount;
 
-    // Fetch real-time crypto prices using CoinGecko API
+    // Fetch real-time crypto prices using CoinGecko API and calculate equivalents
     async function fetchCryptoPrices() {
       try {
         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=ngn');
         const data = await response.json();
         const btcPrice = data.bitcoin.ngn;
         const ethPrice = data.ethereum.ngn;
+
+        // Calculate the equivalent amount in BTC and ETH
+        const amountInNGN = parseFloat(amount);
+        const amountInBTC = amountInNGN / btcPrice;
+        const amountInETH = amountInNGN / ethPrice;
+
+        // Display prices and converted amounts
         document.getElementById('cryptoPrices').innerHTML = `
-          <p>Bitcoin (BTC): ₦${btcPrice.toLocaleString()}</p>
-          <p>Ethereum (ETH): ₦${ethPrice.toLocaleString()}</p>
+          <p>Bitcoin (BTC): ₦${btcPrice.toLocaleString()} | You pay: ${amountInBTC.toFixed(8)} BTC</p>
+          <p>Ethereum (ETH): ₦${ethPrice.toLocaleString()} | You pay: ${amountInETH.toFixed(8)} ETH</p>
         `;
       } catch (error) {
         document.getElementById('cryptoPrices').innerHTML = '<p>Unable to fetch crypto prices.</p>';
