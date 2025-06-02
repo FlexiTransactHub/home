@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexiTransact - Crypto Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="ftlogo.png" type="image/png">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1C2526 0%, #2A3439 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      color: #FFD700;
+    }
+    .navbar {
+      background: #1C2526;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid #FFD700;
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      color: #FFD700 !important;
+      font-weight: 600;
+    }
+    img {
+      height: 24px;
+      width: 24%;
+      margin-right: 10px;
+    }
+    .nav-link {
+      color: #FFD700 !important;
+      font-weight: 600;
+    }
+    .nav-link:hover {
+      color: #FFAA00 !important;
+    }
+    .container {
+      background: #2A3439;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.2);
+      padding: 40px;
+      max-width: 600px;
+      margin: 40px auto;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in;
+      border: 1px solid #FFD700;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      color: #FFD700;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #FFD700;
+    }
+    p {
+      color: #D4AF37;
+      margin-bottom: 20px;
+    }
+    .btn-crypto {
+      background: #FFD700;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1C2526;
+      transition: transform 0.3s ease, background 0.3s ease;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: 0 0 15px #FFD700;
+    }
+    .btn-crypto:hover {
+      transform: scale(1.05);
+      background: #FFAA00;
+    }
+    .btn-share {
+      background: #1DA1F2;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      transition: transform 0.3s ease;
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
+    }
+    .btn-share:hover {
+      transform: scale(1.05);
+      background: #0C7ABF;
+    }
+    .crypto-prices {
+      margin-top: 20px;
+      padding: 15px;
+      background: #1C2526;
+      border-radius: 8px;
+      border: 1px solid #FFD700;
+    }
+    footer {
+      background: #1C2526;
+      color: #FFD700;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      font-size: 0.85rem;
+      border-top: 2px solid #FFD700;
+    }
+    footer p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="logoft.png" alt="FlexiTransact Logo">
+        FlexiTransact
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="api.html">API Options</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="book.html">Book a Meeting</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Pay for <span id="product"></span> with Crypto</h2>
+    <p>Amount: ₦<span id="amount"></span></p>
+    <p>Pay with your preferred cryptocurrency. After payment, the merchant will manually credit the product owner.</p>
+    <div class="crypto-prices" id="cryptoPrices">
+      <p>Fetching real-time crypto prices...</p>
+    </div>
+    <button class="btn btn-crypto" onclick="payWithCrypto()">Pay with Crypto</button>
+    <button class="btn btn-share" onclick="shareOnTwitter()" style="display: none;" id="shareButton">Share Payment on Twitter</button>
+  </div>
+
+  <footer>
+    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Parse URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get('user');
+    const amount = params.get('amount');
+    const product = params.get('product');
+    
+    // Display product and amount
+    document.getElementById('product').textContent = product;
+    document.getElementById('amount').textContent = amount;
+
+    // Fetch real-time crypto prices using CoinGecko API
+    async function fetchCryptoPrices() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=ngn');
+        const data = await response.json();
+        const btcPrice = data.bitcoin.ngn;
+        const ethPrice = data.ethereum.ngn;
+        document.getElementById('cryptoPrices').innerHTML = `
+          <p>Bitcoin (BTC): ₦${btcPrice.toLocaleString()}</p>
+          <p>Ethereum (ETH): ₦${ethPrice.toLocaleString()}</p>
+        `;
+      } catch (error) {
+        document.getElementById('cryptoPrices').innerHTML = '<p>Unable to fetch crypto prices.</p>';
+      }
+    }
+    fetchCryptoPrices();
+
+    // Pay with Crypto using NOWPayments API
+    async function payWithCrypto() {
+      try {
+        // Step 1: Validate wallet address using CoinAPI.io (simplified for demo)
+        const walletAddress = prompt('Enter your crypto wallet address:');
+        const validateResponse = await fetch('https://rest.coinapi.io/v1/addresses/validate', {
+          method: 'POST',
+          headers: {
+            'X-CoinAPI-Key': 'YOUR_COINAPI_KEY',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ address: walletAddress, asset: 'BTC' })
+        });
+        const validateData = await validateResponse.json();
+        if (!validateData.is_valid) {
+          alert('Invalid wallet address!');
+          return;
+        }
+
+        // Step 2: Create a payment using NOWPayments API
+        const paymentResponse = await fetch('https://api.nowpayments.io/v1/payment', {
+          method: 'POST',
+          headers: {
+            'x-api-key': 'YOUR_NOWPAYMENTS_API_KEY',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            price_amount: parseFloat(amount),
+            price_currency: 'NGN',
+            pay_currency: 'BTC',
+            order_id: `FTX_${Math.floor(Math.random() * 1000000)}`,
+            order_description: `Payment for ${product}`,
+            ipn_callback_url: 'YOUR_FIREBASE_WEBHOOK_URL'
+          })
+        });
+        const paymentData = await paymentResponse.json();
+        if (paymentData.payment_id) {
+          alert(`Please send ${paymentData.pay_amount} BTC to ${paymentData.pay_address}`);
+          document.getElementById('shareButton').style.display = 'block';
+        } else {
+          alert('Failed to create crypto payment.');
+        }
+      } catch (error) {
+        alert('Error processing crypto payment: ' + error.message);
+      }
+    }
+
+    // Share payment confirmation on Twitter/X
+    function shareOnTwitter() {
+      const message = `Just paid ₦${amount} for ${product} using crypto on FlexiTransact! 🚀 #CryptoPayment`;
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
