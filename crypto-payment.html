@@ -178,13 +178,13 @@
         const paymentResponse = await fetch('https://api.nowpayments.io/v1/payment', {
           method: 'POST',
           headers: {
-            'x-api-key': 'YOUR_NOWPAYMENTS_API_KEY',
+            'x-api-key': 'VX3QNA7-BY4MN0G-QFZF9K0-S0RVPV6',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             price_amount: parseFloat(amount),
             price_currency: 'NGN',
-            pay_currency: 'BTC', // Currently set to BTC; consider switching to ETH
+            pay_currency: 'ETH', // Currently set to BTC; consider switching to ETH
             order_id: `FTX_${Math.floor(Math.random() * 1000000)}`,
             order_description: `Payment for ${product}`,
             ipn_callback_url: 'YOUR_FIREBASE_WEBHOOK_URL'
