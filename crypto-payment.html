@@ -108,7 +108,7 @@
   </div>
 
   <div class="container">
-    <h2>Pay for <span id="product"></span> with Crypto</h2>
+    <h2>Pay for <span id="product"></span> with <span id="business"></span></h2>
     <p>Amount: ₦<span id="amount"></span></p>
     <p>Send the amount below to the wallet address using your MetaMask wallet. After payment, confirm the transfer.</p>
     <div class="wallet-address" id="walletAddress">
@@ -124,19 +124,47 @@
     const user = params.get('user');
     const amount = params.get('amount');
     const product = params.get('product');
-    
-    // Display product and amount
+    const businessName = params.get('business') || 'FlexiTransact';
+
+    // Display product, amount, and business
     document.getElementById('product').textContent = product;
     document.getElementById('amount').textContent = amount;
+    document.getElementById('business').textContent = businessName;
 
     // Function to confirm transfer and send WhatsApp message
     function confirmTransfer() {
-      // Replace with your WhatsApp number (e.g., +2348012345678)
-      const whatsappNumber = '+1234567890'; // Update this with your number
-      const message = `I have made the payment of ₦${amount} for ${product}.`;
-      const whatsappUrl = `https://wa.me/${+2347025036580}?text=${encodeURIComponent(message)}`;
+      const whatsappNumber = '+2347025036580'; // Update with your number
+      const message = `I have made the payment of ₦${amount} for ${product} for business ${businessName}.`;
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
-      alert('Thank you! We will verify your payment and credit your marchant soon.');
+      alert('Thank you! We will verify your payment and credit your merchant soon.');
+      savePaymentDetails({
+        user,
+        businessName,
+        product,
+        amount,
+        paymentMethod: 'Crypto'
+      });
+    }
+
+    // Google Sheets API for payment details
+    const API_KEY = 'YOUR_GOOGLE_API_KEY';
+    const PAYMENT_SPREADSHEET_ID = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
+
+    function savePaymentDetails(details) {
+      const data = [[
+        details.user,
+        details.businessName,
+        details.product,
+        details.amount,
+        details.paymentMethod,
+        new Date().toISOString()
+      ]];
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${PAYMENT_SPREADSHEET_ID}/values/Sheet1:append?valueInputOption=RAW&key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: data })
+      }).catch(error => console.error('Error saving payment:', error));
     }
   </script>
 </body>

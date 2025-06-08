@@ -22,6 +22,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .navbar {
       background: #1E3A8A;
@@ -197,9 +198,49 @@
     footer p {
       margin: 0;
     }
+    /* Crypto Fields Animation */
+    .crypto-fields {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+    }
+    .crypto-fields.active {
+      max-height: 200px; /* Adjust based on content height */
+    }
+    #cookiePopup {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      background: #FFFFFF;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      text-align: center;
+      display: none;
+    }
+    #cookiePopup button {
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    #cookiePopup .btn-accept {
+      background: #3B82F6;
+      color: #FFFFFF;
+    }
+    #cookiePopup .btn-decline {
+      background: #6B7280;
+      color: #FFFFFF;
+    }
   </style>
 </head>
 <body>
+  <div id="cookiePopup">
+    <p>This page uses cookies to enhance your experience. <button class="btn-accept" onclick="acceptCookies()">Accept</button><button class="btn-decline" onclick="declineCookies()">Decline</button></p>
+  </div>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
@@ -240,6 +281,10 @@
     <h2>Create Your Payment Link</h2>
     <form id="paymentForm">
       <div class="mb-3">
+        <label for="businessName" class="form-label">Business Name</label>
+        <input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required>
+      </div>
+      <div class="mb-3">
         <label for="productName" class="form-label">Product/Service Name</label>
         <input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required>
       </div>
@@ -264,8 +309,19 @@
         </select>
       </div>
       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="cryptoEnabled">
+        <input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()">
         <label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label>
+      </div>
+      <div class="crypto-fields" id="cryptoFields">
+        <div class="mb-3">
+          <label for="accountNumber" class="form-label">Account Number</label>
+          <input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890" required>
+        </div>
+        <div class="mb-3">
+          <label for="bankName" class="form-label">Bank Name</label>
+          <input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList" required>
+          <datalist id="bankList"></datalist>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
     </form>
@@ -294,6 +350,25 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Cookie Popup
+    document.addEventListener('DOMContentLoaded', function() {
+      const cookiePopup = document.getElementById('cookiePopup');
+      if (!getCookie('cookieConsent')) {
+        cookiePopup.style.display = 'block';
+      }
+    });
+
+    function acceptCookies() {
+      setCookie('cookieConsent', 'accepted', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+    }
+
+    function declineCookies() {
+      setCookie('cookieConsent', 'declined', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+      alert('Some features may not work without cookies.');
+    }
+
     // Function to get a cookie by name
     function getCookie(name) {
       const value = `; ${document.cookie}`;
@@ -310,11 +385,11 @@
       document.cookie = `${name}=${value};${expires};path=/`;
     }
 
-    // Retrieve Paystack Key from cookie and prefill the input
+    // Retrieve and prefill cookies
+    const savedBusinessName = getCookie('businessName');
     const savedPaystackKey = getCookie('paystackKey');
-    if (savedPaystackKey) {
-      document.getElementById('paystackKey').value = savedPaystackKey;
-    }
+    if (savedBusinessName) document.getElementById('businessName').value = savedBusinessName;
+    if (savedPaystackKey) document.getElementById('paystackKey').value = savedPaystackKey;
 
     // Function to copy textarea content to clipboard
     function copyToClipboard(elementId) {
@@ -328,40 +403,119 @@
       }
     }
 
+    // Toggle Crypto Fields
+    function toggleCryptoFields() {
+      const cryptoFields = document.getElementById('cryptoFields');
+      const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
+      if (cryptoEnabled) {
+        cryptoFields.classList.add('active');
+        fetchBankList(); // Fetch Paystack bank list when enabling crypto
+      } else {
+        cryptoFields.classList.remove('active');
+      }
+    }
+
+    // Fetch Paystack Bank List
+    async function fetchBankList() {
+      try {
+        const response = await fetch('https://api.paystack.co/bank', {
+          headers: {
+            'Authorization': 'Bearer YOUR_PAYSTACK_SECRET_KEY', // Replace with your secret key
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        const bankList = document.getElementById('bankList');
+        bankList.innerHTML = '';
+        data.data.forEach(bank => {
+          const option = document.createElement('option');
+          option.value = bank.name;
+          bankList.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error fetching bank list:', error);
+      }
+    }
+
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const businessName = document.getElementById('businessName').value;
       const productName = document.getElementById('productName').value;
       const amount = document.getElementById('amount').value;
       const paystackKey = document.getElementById('paystackKey').value;
       const buttonColor = document.getElementById('buttonColor').value;
       const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
-      
-      // Save Paystack Key to cookie for 30 days
+      const accountNumber = document.getElementById('accountNumber').value;
+      const bankName = document.getElementById('bankName').value;
+
+      // Validate crypto fields if enabled
+      if (cryptoEnabled && (!accountNumber || !bankName)) {
+        alert('Account Number and Bank Name are required for crypto payments.');
+        return;
+      }
+
+      // Save to cookies
+      setCookie('businessName', businessName, 30);
       setCookie('paystackKey', paystackKey, 30);
 
       // Generate unique user ID
       const userId = 'sme' + Math.floor(Math.random() * 10000);
-      
-      // Generate payment link
-      const paymentLink = `https://flexitransact.com.ng/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}`;
-      
+
+      // Generate payment link with isCrypto and businessName
+      const paymentLink = `https://flexitransact.com.ng/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
+
       // Generate button code with Bootstrap classes
       const buttonCode = `<a href="${paymentLink}" class="btn btn-${buttonColor}" style="padding: 12px 20px; border-radius: 8px; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 600;">Pay Now</a>`;
-      
-      // Generate WhatsApp share link
+
+      // Generate WhatsApp share link (placeholder for now)
       const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${paymentLink}`;
       const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
-      
+
       // Generate iframe code
       const iframeCode = `<iframe src="${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
-      
+
       // Display results
       document.getElementById('paymentLink').value = paymentLink;
       document.getElementById('buttonCode').value = buttonCode;
       document.getElementById('whatsappLink').value = whatsappLink;
       document.getElementById('iframeCode').value = iframeCode;
       document.getElementById('result').style.display = 'block';
+
+      // Save product details to Google Sheets
+      saveProductDetails({
+        businessName,
+        productName,
+        amount,
+        paystackKey,
+        isCryptoEnabled: cryptoEnabled,
+        accountNumber,
+        bankName,
+        userId
+      });
     });
+
+    // Google Sheets API for product details
+    const API_KEY = 'YOUR_GOOGLE_API_KEY';
+    const PRODUCT_SPREADSHEET_ID = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
+
+    function saveProductDetails(details) {
+      const data = [[
+        details.userId,
+        details.businessName,
+        details.productName,
+        details.amount,
+        details.paystackKey,
+        details.isCryptoEnabled,
+        details.accountNumber || '',
+        details.bankName || '',
+        new Date().toISOString()
+      ]];
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${PRODUCT_SPREADSHEET_ID}/values/Sheet1:append?valueInputOption=RAW&key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: data })
+      }).catch(error => console.error('Error saving product:', error));
+    }
   </script>
 </body>
 </html>

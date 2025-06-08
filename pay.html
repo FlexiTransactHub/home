@@ -123,11 +123,11 @@
 <body>
   <div class="container">
     <a href="index.html"><img src="logoft.png" alt="FlexiTransact Logo"></a>
-    <h2>Pay for <span id="product"></span></h2>
+    <h2>Pay for <span id="product"></span> with <span id="business"></span></h2>
     <p>Amount: ₦<span id="amount"></span></p>
     <button class="btn btn-primary" onclick="startPayment()">Pay Now</button>
-    <button class="btn btn-crypto" onclick="payWithCrypto()">Pay with Crypto</button>
-    <button class="btn btn-giftcard" onclick="payWithGiftCard()">Pay with Gift Card</button>
+    <button class="btn btn-crypto" id="payCryptoBtn" onclick="payWithCrypto()">Pay with Crypto</button>
+    <button class="btn btn-giftcard" id="payGiftcardBtn" disabled>Pay with Gift Card</button>
   </div>
 
   <footer>
@@ -143,11 +143,17 @@
     const product = params.get('product');
     const paystackKey = params.get('key');
     const cryptoEnabled = params.get('crypto') === 'true';
-    
-    // Display product and amount
+    const businessName = params.get('business') || 'FlexiTransact';
+
+    // Display product, amount, and business
     document.getElementById('product').textContent = product;
     document.getElementById('amount').textContent = amount;
-    
+    document.getElementById('business').textContent = businessName;
+
+    // Toggle buttons based on cryptoEnabled
+    document.getElementById('payCryptoBtn').disabled = !cryptoEnabled;
+    document.getElementById('payGiftcardBtn').disabled = true; // Permanently disabled
+
     function startPayment() {
       PaystackPop.setup({
         key: paystackKey,
@@ -161,18 +167,48 @@
         },
         callback: function(response) {
           alert('Payment successful! Reference: ' + response.reference);
-          const message = `Payment of ₦${amount} for ${product} received! Ref: ${response.reference}`;
-          window.location.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
+          const whatsappNumber = '+2347025036580'; // Update with your number
+          const message = `Payment of ₦${amount} for ${product} for business ${businessName} received! Ref: ${response.reference}`;
+          window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+          savePaymentDetails({
+            user,
+            businessName,
+            product,
+            amount,
+            paymentMethod: 'Paystack',
+            reference: response.reference
+          });
         }
       }).openIframe();
     }
 
     function payWithCrypto() {
-      window.location.href = `crypto-payment.html?user=${user}&amount=${amount}&product=${encodeURIComponent(product)}`;
+      window.location.href = `crypto-payment.html?user=${user}&amount=${amount}&product=${encodeURIComponent(product)}&business=${encodeURIComponent(businessName)}`;
     }
 
     function payWithGiftCard() {
-      window.location.href = `giftcard-payment.html?user=${user}&amount=${amount}&product=${encodeURIComponent(product)}`;
+      alert('Gift card payment is currently unavailable.');
+    }
+
+    // Google Sheets API for payment details
+    const API_KEY = 'YOUR_GOOGLE_API_KEY';
+    const PAYMENT_SPREADSHEET_ID = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
+
+    function savePaymentDetails(details) {
+      const data = [[
+        details.user,
+        details.businessName,
+        details.product,
+        details.amount,
+        details.paymentMethod,
+        details.reference || '',
+        new Date().toISOString()
+      ]];
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${PAYMENT_SPREADSHEET_ID}/values/Sheet1:append?valueInputOption=RAW&key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: data })
+      }).catch(error => console.error('Error saving payment:', error));
     }
   </script>
 </body>
