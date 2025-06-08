@@ -156,23 +156,24 @@
     // Pay with Crypto using NOWPayments API
     async function payWithCrypto() {
       try {
-        // Step 1: Validate wallet address using CoinAPI.io (simplified for demo)
-        const walletAddress = prompt('Enter your crypto wallet address:');
-        const validateResponse = await fetch('https://rest.coinapi.io/v1/addresses/validate', {
-          method: 'POST',
-          headers: {
-            'X-CoinAPI-Key': 'YOUR_COINAPI_KEY',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ address: walletAddress, asset: 'BTC' })
-        });
-        const validateData = await validateResponse.json();
-        if (!validateData.is_valid) {
-          alert('Invalid wallet address!');
+        // Step 1: Prompt for wallet address and offer test option
+        let walletAddress = prompt('Enter your crypto wallet address (or use test address: 0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t):');
+        if (!walletAddress) return;
+
+        // Use test address if user selects it
+        const testAddress = '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t';
+        if (walletAddress.toLowerCase() === testAddress.toLowerCase()) {
+          walletAddress = testAddress;
+        }
+
+        // Validate ETH address (basic regex check)
+        const ethAddressRegex = /^0x[a-fA-F0-9]{40}$/;
+        if (!ethAddressRegex.test(walletAddress)) {
+          alert('Invalid wallet address! Please use a valid Ethereum address (e.g., 0x...).');
           return;
         }
 
-        // Step 2: Create a payment using NOWPayments API
+        // Step 2: Create a payment using NOWPayments API (adjusted for BTC for now)
         const paymentResponse = await fetch('https://api.nowpayments.io/v1/payment', {
           method: 'POST',
           headers: {
@@ -182,7 +183,7 @@
           body: JSON.stringify({
             price_amount: parseFloat(amount),
             price_currency: 'NGN',
-            pay_currency: 'BTC',
+            pay_currency: 'BTC', // Currently set to BTC; consider switching to ETH
             order_id: `FTX_${Math.floor(Math.random() * 1000000)}`,
             order_description: `Payment for ${product}`,
             ipn_callback_url: 'YOUR_FIREBASE_WEBHOOK_URL'
