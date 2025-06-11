@@ -248,18 +248,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="api.html">API Options</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="book.html">Book a Meeting</a>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="api.html">API Options</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="book.html">Book a Meeting</a></li>
         </ul>
       </div>
     </div>
@@ -271,162 +263,53 @@
     <h1>Empower Your SME with Seamless Payments</h1>
     <p>Create professional payment links and buttons in seconds. Accept cards, USSD, bank transfers, and crypto.</p>
     <a href="#form" class="btn btn-primary">Get Started Now</a>
-    <div class="powered-by">
-      <span>Powered by</span>
-      <img src="paystack.png" alt="Paystack">
-    </div>
+    <div class="powered-by"><span>Powered by</span><img src="paystack.png" alt="Paystack"></div>
   </div>
   <div class="container" id="form">
     <h2>Create Your Payment Link</h2>
     <form id="paymentForm">
-      <div class="mb-3">
-        <label for="businessName" class="form-label">Business Name</label>
-        <input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required>
-      </div>
-      <div class="mb-3">
-        <label for="productName" class="form-label">Product/Service Name</label>
-        <input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required>
-      </div>
-      <div class="mb-3">
-        <label for="amount" class="form-label">Price (₦)</label>
-        <input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required>
-      </div>
-      <div class="mb-3">
-        <label for="paystackKey" class="form-label">Paystack Public Key</label>
-        <input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456" required>
-      </div>
-      <div class="mb-3">
-        <label for="buttonColor" class="form-label">Button Color</label>
-        <select class="form-select" id="buttonColor">
-          <option value="primary">Primary (Blue)</option>
-          <option value="secondary">Secondary (Gray)</option>
-          <option value="success">Success (Green)</option>
-          <option value="danger">Danger (Red)</option>
-          <option value="warning">Warning (Yellow)</option>
-          <option value="info">Info (Cyan)</option>
-          <option value="dark">Dark (Black)</option>
-        </select>
-      </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()">
-        <label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label>
-      </div>
+      <div class="mb-3"><label for="businessName" class="form-label">Business Name</label><input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required></div>
+      <div class="mb-3"><label for="productName" class="form-label">Product/Service Name</label><input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required></div>
+      <div class="mb-3"><label for="amount" class="form-label">Price (₦)</label><input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required></div>
+      <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456" required></div>
+      <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
+      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
       <div class="crypto-fields" id="cryptoFields">
-        <div class="mb-3">
-          <label for="accountNumber" class="form-label">Account Number</label>
-          <input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890" required>
-        </div>
-        <div class="mb-3">
-          <label for="bankName" class="form-label">Bank Name</label>
-          <input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList" required>
-          <datalist id="bankList"></datalist>
-        </div>
+        <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890" required></div>
+        <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList" required><datalist id="bankList"></datalist></div>
       </div>
       <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
     </form>
     <div id="result">
-      <h5>Payment Link</h5>
-      <textarea id="paymentLink" rows="2" readonly></textarea>
-      <button class="btn btn-copy" onclick="copyToClipboard('paymentLink')">Copy</button>
-      <h5>Branded "Pay Now" Button</h5>
-      <textarea id="buttonCode" rows="4" readonly></textarea>
-      <button class="btn btn-copy" onclick="copyToClipboard('buttonCode')">Copy</button>
-      <h5>WhatsApp Share Link</h5>
-      <textarea id="whatsappLink" rows="2" readonly></textarea>
-      <button class="btn btn-copy" onclick="copyToClipboard('whatsappLink')">Copy</button>
-      <h5>Iframe Embed Code</h5>
-      <textarea id="iframeCode" rows="4" readonly></textarea>
-      <button class="btn btn-copy" onclick="copyToClipboard('iframeCode')">Copy</button>
+      <h5>Payment Link</h5><textarea id="paymentLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('paymentLink')">Copy</button>
+      <h5>Branded "Pay Now" Button</h5><textarea id="buttonCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('buttonCode')">Copy</button>
+      <h5>WhatsApp Share Link</h5><textarea id="whatsappLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('whatsappLink')">Copy</button>
+      <h5>Iframe Embed Code</h5><textarea id="iframeCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('iframeCode')">Copy</button>
       <p class="analytics-teaser">Track clicks and conversions with our premium plan (coming soon).</p>
     </div>
-    <div class="guide">
-      <p>Need a Paystack key? <a href="https://paystack.com" target="_blank">Sign up free in 5 minutes</a>.</p>
-      <p>Find your public key in Paystack Dashboard > Settings > API Keys.</p>
-    </div>
+    <div class="guide"><p>Need a Paystack key? <a href="https://paystack.com" target="_blank">Sign up free in 5 minutes</a>.</p><p>Find your public key in Paystack Dashboard > Settings > API Keys.</p></div>
   </div>
-  <footer>
-    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
-  </footer>
+  <footer><p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p></footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const cookiePopup = document.getElementById('cookiePopup');
-      if (!getCookie('cookieConsent')) {
-        cookiePopup.style.display = 'block';
-      }
+      if (!getCookie('cookieConsent')) cookiePopup.style.display = 'block';
     });
 
-    function acceptCookies() {
-      setCookie('cookieConsent', 'accepted', 365);
-      document.getElementById('cookiePopup').style.display = 'none';
-    }
+    function acceptCookies() { setCookie('cookieConsent', 'accepted', 365); document.getElementById('cookiePopup').style.display = 'none'; }
+    function declineCookies() { setCookie('cookieConsent', 'declined', 365); document.getElementById('cookiePopup').style.display = 'none'; alert('Some features may not work without cookies.'); }
+    function getCookie(name) { const value = `; ${document.cookie}`; const parts = value.split(`; ${name}=`); return parts.length === 2 ? parts.pop().split(';').shift() : null; }
+    function setCookie(name, value, days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`; }
 
-    function declineCookies() {
-      setCookie('cookieConsent', 'declined', 365);
-      document.getElementById('cookiePopup').style.display = 'none';
-      alert('Some features may not work without cookies.');
-    }
+    const savedBusinessName = getCookie('businessName'); if (savedBusinessName) document.getElementById('businessName').value = savedBusinessName;
+    const savedPaystackKey = getCookie('paystackKey'); if (savedPaystackKey) document.getElementById('paystackKey').value = savedPaystackKey;
 
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
+    function copyToClipboard(elementId) { const textarea = document.getElementById(elementId); textarea.select(); try { document.execCommand('copy'); alert('Copied to clipboard!'); } catch (err) { alert('Failed to copy. Please copy manually.'); } }
 
-    function setCookie(name, value, days) {
-      const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      const expires = `expires=${date.toUTCString()}`;
-      document.cookie = `${name}=${value};${expires};path=/`;
-    }
+    function toggleCryptoFields() { const cryptoFields = document.getElementById('cryptoFields'); cryptoFields.classList.toggle('active', document.getElementById('cryptoEnabled').checked); }
 
-    const savedBusinessName = getCookie('businessName');
-    const savedPaystackKey = getCookie('paystackKey');
-    if (savedBusinessName) document.getElementById('businessName').value = savedBusinessName;
-    if (savedPaystackKey) document.getElementById('paystackKey').value = savedPaystackKey;
-
-    function copyToClipboard(elementId) {
-      const textarea = document.getElementById(elementId);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        alert('Copied to clipboard!');
-      } catch (err) {
-        alert('Failed to copy. Please copy manually.');
-      }
-    }
-
-    function toggleCryptoFields() {
-      const cryptoFields = document.getElementById('cryptoFields');
-      const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
-      if (cryptoEnabled) {
-        cryptoFields.classList.add('active');
-      } else {
-        cryptoFields.classList.remove('active');
-      }
-    }
-
-    async function fetchBankList() {
-      try {
-        const response = await fetch('https://api.paystack.co/bank', {
-          headers: {
-            'Authorization': 'Bearer YOUR_PAYSTACK_SECRET_KEY',
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        const bankList = document.getElementById('bankList');
-        bankList.innerHTML = '';
-        data.data.forEach(bank => {
-          const option = document.createElement('option');
-          option.value = bank.name;
-          bankList.appendChild(option);
-        });
-      } catch (error) {
-        console.error('Error fetching bank list:', error);
-      }
-    }
+    async function fetchBankList() { try { const response = await fetch('https://api.paystack.co/bank', { headers: { 'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY || 'pk_test_123456789'}`, 'Content-Type': 'application/json' } }); const data = await response.json(); const bankList = document.getElementById('bankList'); bankList.innerHTML = ''; data.data.forEach(bank => { const option = document.createElement('option'); option.value = bank.name; bankList.appendChild(option); }); } catch (error) { console.error('Error fetching bank list:', error); } }
 
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -448,13 +331,13 @@
       setCookie('paystackKey', paystackKey, 30);
 
       const userId = 'sme' + Math.floor(Math.random() * 10000);
-      const paymentLink = `https://flexitransact.com.ng/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
+      const paymentLink = `/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
       const buttonCode = `<a href="${paymentLink}" class="btn btn-${buttonColor}" style="padding: 12px 20px; border-radius: 8px; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 600;">Pay Now</a>`;
-      const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${paymentLink}`;
+      const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${window.location.origin}${paymentLink}`;
       const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
-      const iframeCode = `<iframe src="${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
+      const iframeCode = `<iframe src="${window.location.origin}${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
 
-      document.getElementById('paymentLink').value = paymentLink;
+      document.getElementById('paymentLink').value = window.location.origin + paymentLink;
       document.getElementById('buttonCode').value = buttonCode;
       document.getElementById('whatsappLink').value = whatsappLink;
       document.getElementById('iframeCode').value = iframeCode;
@@ -463,19 +346,19 @@
       fetch('/.netlify/functions/save-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'product',
-          businessName,
-          productName,
-          amount,
-          paystackKey,
-          isCryptoEnabled: cryptoEnabled,
-          accountNumber,
-          bankName,
-          userId
-        })
-      }).then(response => response.json()).then(data => console.log(data)).catch(error => console.error('Error:', error));
+        body: JSON.stringify({ type: 'product', businessName, productName, amount, paystackKey, isCryptoEnabled: cryptoEnabled, accountNumber, bankName, userId })
+      }).then(response => response.json()).then(data => {
+        console.log('Success:', data);
+        if (data.message) alert(data.message);
+        else alert('Data saved, but no confirmation message received.');
+      }).catch(error => {
+        console.error('Error:', error);
+        alert('Failed to save details. Check console for details.');
+      });
     });
+
+    // Call fetchBankList on load if needed, but move to backend in production
+    // document.addEventListener('DOMContentLoaded', fetchBankList);
   </script>
 </body>
 </html>
