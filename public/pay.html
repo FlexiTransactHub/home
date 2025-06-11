@@ -126,8 +126,10 @@
     <h2>Pay for <span id="product"></span> with <span id="business"></span></h2>
     <p>Amount: ₦<span id="amount"></span></p>
     <button class="btn btn-primary" onclick="startPayment()">Pay Now</button>
-    <button class="btn btn-crypto" id="payCryptoBtn" onclick="payWithCrypto()">Pay with Crypto</button>
-    <button class="btn btn-giftcard" id="payGiftcardBtn" disabled>Pay with Gift Card</button>
+    <div id="cryptoAndGiftcardButtons" style="display: none;">
+      <button class="btn btn-crypto" id="payCryptoBtn" onclick="payWithCrypto()">Pay with Crypto</button>
+      <button class="btn btn-giftcard" id="payGiftcardBtn" disabled>Pay with Gift Card</button>
+    </div>
   </div>
 
   <footer>
@@ -140,7 +142,7 @@
     const user = params.get('user') || 'testuser';
     const amount = params.get('amount');
     const product = params.get('product') || 'Test Product';
-    const paystackKey = params.get('key') || 'pk_test_123456789'; // Fallback to test key
+    const paystackKey = params.get('key') || 'pk_test_123456789';
     const cryptoEnabled = params.get('crypto') === 'true';
     const businessName = params.get('business') || 'FlexiTransact';
 
@@ -148,8 +150,12 @@
     document.getElementById('amount').textContent = amount;
     document.getElementById('business').textContent = businessName;
 
-    document.getElementById('payCryptoBtn').disabled = !cryptoEnabled;
-    document.getElementById('payGiftcardBtn').disabled = true;
+    if (cryptoEnabled) {
+      document.getElementById('cryptoAndGiftcardButtons').style.display = 'block';
+      document.getElementById('payCryptoBtn').disabled = false;
+    } else {
+      document.getElementById('cryptoAndGiftcardButtons').style.display = 'none';
+    }
 
     function startPayment() {
       const email = prompt('Enter your email:') || 'test@example.com';
@@ -164,7 +170,7 @@
         return;
       }
 
-      console.log('Paystack Key:', paystackKey, 'Email:', email, 'Amount:', amountNum * 100, 'Channels:', cryptoEnabled ? ['card', 'bank', 'ussd'] : ['card', 'bank', 'ussd']);
+      console.log('Paystack Key:', paystackKey, 'Email:', email, 'Amount:', amountNum * 100, 'Channels:', ['card', 'bank', 'ussd']);
 
       if (window.location.hostname === 'localhost') {
         alert('Paystack payment cannot be tested locally. Please deploy to Netlify and use the live URL.');
@@ -177,7 +183,7 @@
         amount: amountNum * 100,
         ref: 'FTX_' + Math.floor(Math.random() * 1000000),
         metadata: { user_id: user, crypto_enabled: cryptoEnabled },
-        channels: cryptoEnabled ? ['card', 'bank', 'ussd'] : ['card', 'bank', 'ussd'], // Removed 'crypto' unless Paystack supports it
+        channels: ['card', 'bank', 'ussd'],
         onClose: function() {
           alert('Payment cancelled.');
         },

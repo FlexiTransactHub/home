@@ -275,8 +275,8 @@
       <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
       <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
       <div class="crypto-fields" id="cryptoFields">
-        <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890" required></div>
-        <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList" required><datalist id="bankList"></datalist></div>
+        <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890"></div>
+        <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList"><datalist id="bankList"></datalist></div>
       </div>
       <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
     </form>
@@ -307,7 +307,13 @@
 
     function copyToClipboard(elementId) { const textarea = document.getElementById(elementId); textarea.select(); try { document.execCommand('copy'); alert('Copied to clipboard!'); } catch (err) { alert('Failed to copy. Please copy manually.'); } }
 
-    function toggleCryptoFields() { const cryptoFields = document.getElementById('cryptoFields'); cryptoFields.classList.toggle('active', document.getElementById('cryptoEnabled').checked); }
+    function toggleCryptoFields() {
+      const cryptoFields = document.getElementById('cryptoFields');
+      const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
+      cryptoFields.classList.toggle('active', cryptoEnabled);
+      document.getElementById('accountNumber').required = cryptoEnabled;
+      document.getElementById('bankName').required = cryptoEnabled;
+    }
 
     async function fetchBankList() { try { const response = await fetch('https://api.paystack.co/bank', { headers: { 'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY || 'pk_test_123456789'}`, 'Content-Type': 'application/json' } }); const data = await response.json(); const bankList = document.getElementById('bankList'); bankList.innerHTML = ''; data.data.forEach(bank => { const option = document.createElement('option'); option.value = bank.name; bankList.appendChild(option); }); } catch (error) { console.error('Error fetching bank list:', error); } }
 
@@ -319,8 +325,8 @@
       const paystackKey = document.getElementById('paystackKey').value;
       const buttonColor = document.getElementById('buttonColor').value;
       const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
-      const accountNumber = document.getElementById('accountNumber').value;
-      const bankName = document.getElementById('bankName').value;
+      const accountNumber = cryptoEnabled ? document.getElementById('accountNumber').value : '';
+      const bankName = cryptoEnabled ? document.getElementById('bankName').value : '';
 
       if (cryptoEnabled && (!accountNumber || !bankName)) {
         alert('Account Number and Bank Name are required for crypto payments.');
