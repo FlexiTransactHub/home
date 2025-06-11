@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "echo 'No build step needed'"
+  command = "npm install && echo 'Dependencies installed'"
 
 [functions]
   directory = "netlify/functions"

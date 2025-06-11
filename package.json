@@ -1,0 +1,11 @@
+{
+    "name": "flexitransact-project",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "netlify dev"
+    },
+    "dependencies": {
+      "googleapis": "^105.0.0",
+      "node-fetch": "^2.6.7"
+    }
+  }
