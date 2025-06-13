@@ -198,12 +198,12 @@
     footer p {
       margin: 0;
     }
-    .crypto-fields {
+    .crypto-fields, .naira-fields {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s ease-in-out;
     }
-    .crypto-fields.active {
+    .crypto-fields.active, .naira-fields.active {
       max-height: 200px;
     }
     #cookiePopup {
@@ -272,13 +272,16 @@
       <div class="mb-3"><label for="businessName" class="form-label">Business Name</label><input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required></div>
       <div class="mb-3"><label for="productName" class="form-label">Product/Service Name</label><input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required></div>
       <div class="mb-3"><label for="amount" class="form-label">Price (₦)</label><input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required></div>
-      <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456" required></div>
-      <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
       <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
       <div class="crypto-fields" id="cryptoFields">
         <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890"></div>
         <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList"><datalist id="bankList"></datalist></div>
       </div>
+      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="nairaEnabled" onchange="toggleNairaFields()"><label class="form-check-label" for="nairaEnabled">Enable Naira Payment (Paystack)</label></div>
+      <div class="naira-fields" id="nairaFields">
+        <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456"></div>
+      </div>
+      <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
       <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
     </form>
     <div id="result">
@@ -316,6 +319,13 @@
       document.getElementById('bankName').required = cryptoEnabled;
     }
 
+    function toggleNairaFields() {
+      const nairaFields = document.getElementById('nairaFields');
+      const nairaEnabled = document.getElementById('nairaEnabled').checked;
+      nairaFields.classList.toggle('active', nairaEnabled);
+      document.getElementById('paystackKey').required = nairaEnabled;
+    }
+
     async function fetchBankList() { try { const response = await fetch('https://api.paystack.co/bank', { headers: { 'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY || 'pk_test_123456789'}`, 'Content-Type': 'application/json' } }); const data = await response.json(); const bankList = document.getElementById('bankList'); bankList.innerHTML = ''; data.data.forEach(bank => { const option = document.createElement('option'); option.value = bank.name; bankList.appendChild(option); }); } catch (error) { console.error('Error fetching bank list:', error); } }
 
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
@@ -326,12 +336,22 @@
       const paystackKey = document.getElementById('paystackKey').value;
       const buttonColor = document.getElementById('buttonColor').value;
       const cryptoEnabled = document.getElementById('cryptoEnabled').checked;
+      const nairaEnabled = document.getElementById('nairaEnabled').checked;
       const accountNumber = cryptoEnabled ? document.getElementById('accountNumber').value : '';
       const bankName = cryptoEnabled ? document.getElementById('bankName').value : '';
 
-      // Paystack Key Validation
+      if (!cryptoEnabled && !nairaEnabled) {
+        alert('Please select at least one payment type (Crypto or Naira).');
+        return;
+      }
+
+      if (nairaEnabled && !paystackKey) {
+        alert('Paystack Public Key is required for Naira payments.');
+        return;
+      }
+
       const paystackRegex = /^(pk|sk)_(test|live)_[a-zA-Z0-9]{20,45}$/;
-      if (!paystackRegex.test(paystackKey)) {
+      if (nairaEnabled && !paystackRegex.test(paystackKey)) {
         alert('Invalid Paystack key. Learn how to get a Paystack key?', 'https://www.youtube.com/watch?v=example'); // Replace with actual YouTube URL
         return;
       }
@@ -345,7 +365,7 @@
       setCookie('paystackKey', paystackKey, 30);
 
       const userId = 'sme' + Math.floor(Math.random() * 10000);
-      const paymentLink = `${window.location.origin}/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${paystackKey}&crypto=${cryptoEnabled}&business=${encodeURIComponent(businessName)}`;
+      const paymentLink = `${window.location.origin}/pay.html?user=${userId}&amount=${amount}&product=${encodeURIComponent(productName)}&key=${encodeURIComponent(paystackKey)}&crypto=${cryptoEnabled}&naira=${nairaEnabled}&business=${encodeURIComponent(businessName)}`;
       const buttonCode = `<a href="${paymentLink}" class="btn btn-${buttonColor}" style="padding: 12px 20px; border-radius: 8px; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 600;">Pay Now</a>`;
       const whatsappMessage = `Purchase ${productName} for ₦${amount}: ${paymentLink}`;
       const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
