@@ -272,14 +272,14 @@
       <div class="mb-3"><label for="businessName" class="form-label">Business Name</label><input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required></div>
       <div class="mb-3"><label for="productName" class="form-label">Product/Service Name</label><input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required></div>
       <div class="mb-3"><label for="amount" class="form-label">Price (₦)</label><input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required></div>
+      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="nairaEnabled" onchange="toggleNairaFields()"><label class="form-check-label" for="nairaEnabled">Enable Naira Payment (Paystack)</label></div>
+      <div class="naira-fields" id="nairaFields">
+        <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456"></div>
+      </div>
       <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
       <div class="crypto-fields" id="cryptoFields">
         <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890"></div>
         <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList"><datalist id="bankList"></datalist></div>
-      </div>
-      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="nairaEnabled" onchange="toggleNairaFields()"><label class="form-check-label" for="nairaEnabled">Enable Naira Payment (Paystack)</label></div>
-      <div class="naira-fields" id="nairaFields">
-        <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456"></div>
       </div>
       <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
       <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
