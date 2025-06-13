@@ -252,7 +252,7 @@
           <li class="nav-item"><a class="nav-link" href="api.html">API Options</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link active" href="book.html">Book a Meeting</a></li>
-          <li class="nav-item"><a class="nav-link" href="help.html"><span style="font-size: 1.5em;">?</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html"><span style="font-size: 1.1em;">?</span></a></li>
         </ul>
       </div>
     </div>
@@ -330,7 +330,7 @@
       const bankName = cryptoEnabled ? document.getElementById('bankName').value : '';
 
       // Paystack Key Validation
-      const paystackRegex = /^(pk|sk)_(test|live)_[a-zA-Z0-9]{20,22}$/;
+      const paystackRegex = /^(pk|sk)_(test|live)_[a-zA-Z0-9]{20,45}$/;
       if (!paystackRegex.test(paystackKey)) {
         alert('Invalid Paystack key. Learn how to get a Paystack key?', 'https://www.youtube.com/watch?v=example'); // Replace with actual YouTube URL
         return;
