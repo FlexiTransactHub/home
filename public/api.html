@@ -136,56 +136,62 @@
     </div>
   </nav>
   <div class="container">
-    <h1>Integrate Payments with Paystack API</h1>
-    <p>Take your SME to the next level by integrating Paystack’s powerful API into your website or app. Accept payments seamlessly, including crypto (Bitcoin, USDT).</p>
-    <h2>Getting Started</h2>
-    <p>1. Sign up for a <a href="https://paystack.com" target="_blank">Paystack account</a>.</p>
-    <p>2. Get your API keys from Paystack Dashboard > Settings > API Keys.</p>
-    <p>3. Use the code snippets below to integrate payments.</p>
-    <h2>Node.js Example</h2>
+    <h1>FlexiTransact API Integration</h1>
+    <p>Enhance your SME with our API to create dynamic payment links for Naira and crypto transactions. Integrate seamlessly with your website or app using the FlexiTransact API.</p>
+    <h2>Example API Endpoint</h2>
+    <p>Below is an example of a payment link you can generate and customize via our API:</p>
     <pre>
-const fetch = require('node-fetch');
+https://flexitransact.com.ng/pay.html?user=sme9452&amount=5000&product=cap&key=pk_test_2db2746da63982f62b2b1ed9283c66bd8a187029&crypto=true&naira=true&business=Airge
+    </pre>
+    <h2>How to Use the FlexiTransact API</h2>
+    <p>Our API allows you to create payment links programmatically by constructing a URL with query parameters. Follow these steps to integrate:</p>
+    <ol>
+      <li><strong>Base URL</strong>: Start with the base endpoint <code>https://flexitransact.com.ng/pay.html</code>.</li>
+      <li><strong>Required Parameters</strong>:
+        <ul>
+          <li><code>user</code>: A unique user ID (e.g., <code>sme9452</code>).</li>
+          <li><code>amount</code>: The payment amount in Naira (e.g., <code>5000</code>).</li>
+          <li><code>product</code>: The name of the product or service (e.g., <code>cap</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Optional Parameters</strong>:
+        <ul>
+          <li><code>key</code>: Your Paystack public key (e.g., <code>pk_test_2db2746da63982f62b2b1ed9283c66bd8a187029</code>), required if Naira payments are enabled.</li>
+          <li><code>crypto</code>: Set to <code>true</code> or <code>false</code> to enable/disable crypto payments.</li>
+          <li><code>naira</code>: Set to <code>true</code> or <code>false</code> to enable/disable Naira payments via Paystack.</li>
+          <li><code>business</code>: Your business name (e.g., <code>Airge</code>).</li>
+          <li><code>accountNumber</code> and <code>bankName</code>: Required if <code>crypto=true</code> for crypto payment details.</li>
+        </ul>
+      </li>
+      <li><strong>Implementation Example</strong>: Use the following JavaScript code to generate a payment link dynamically:
+        <pre>
+const createPaymentLink = (userId, amount, product, paystackKey, cryptoEnabled, nairaEnabled, businessName) => {
+  const baseUrl = 'https://flexitransact.com.ng/pay.html';
+  const params = new URLSearchParams({
+    user: userId,
+    amount: amount,
+    product: encodeURIComponent(product),
+    key: paystackKey,
+    crypto: cryptoEnabled,
+    naira: nairaEnabled,
+    business: encodeURIComponent(businessName)
+  }).toString();
+  return `${baseUrl}?${params}`;
+};
 
-async function initializePayment(email, amount) {
-  const response = await fetch('https://api.paystack.co/transaction/initialize', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer YOUR_SECRET_KEY',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      amount: amount * 100, // Convert to kobo
-      channels: ['card', 'bank', 'ussd', 'crypto']
-    })
-  });
-  const data = await response.json();
-  return data.data.authorization_url;
-}
-    </pre>
-    <h2>PHP Example</h2>
-    <pre>
-<?php
-$curl = curl_init();
-curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.paystack.co/transaction/initialize",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => json_encode([
-    'email' => 'customer@example.com',
-    'amount' => 50000 * 100, // Convert to kobo
-    'channels' => ['card', 'bank', 'ussd', 'crypto']
-  ]),
-  CURLOPT_HTTPHEADER => [
-    "Authorization: Bearer YOUR_SECRET_KEY",
-    "Content-Type: application/json"
-  ]
-]);
-$response = curl_exec($curl);
-$data = json_decode($response, true);
-echo $data['data']['authorization_url'];
-?>
-    </pre>
+// Example usage
+const link = createPaymentLink('sme9452', '5000', 'cap', 'pk_test_2db2746da63982f62b2b1ed9283c66bd8a187029', 'true', 'true', 'Airge');
+console.log(link);
+        </pre>
+      </li>
+      <li><strong>Notes</strong>:
+        <ul>
+          <li>Ensure your Paystack public key is valid and matches the <code>pk_(test|live)_[a-zA-Z0-9]{20,45}</code> pattern.</li>
+          <li>For crypto payments, include <code>accountNumber</code> and <code>bankName</code> in the query string if needed by your payment flow.</li>
+          <li>Test the link locally or deploy to a live environment to verify functionality.</li>
+        </ul>
+      </li>
+    </ol>
     <p><a href="https://developers.paystack.com/docs" target="_blank" class="btn btn-primary">Explore Paystack API Docs</a></p>
   </div>
   <footer>
