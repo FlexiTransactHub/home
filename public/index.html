@@ -99,10 +99,6 @@
       max-width: 600px;
       margin: 40px auto;
       animation: fadeIn 0.5s ease-in;
-      display: none; /* Hidden until authenticated */
-    }
-    .container.authenticated {
-      display: block; /* Shown after authentication */
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -243,6 +239,18 @@
       text-align: center;
       margin-top: 10px;
     }
+    #g_id_onload_error {
+      color: #FF0000;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+    .form-content {
+      display: none;
+    }
+    .form-content.authenticated {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -274,6 +282,10 @@
     <p>Create professional payment links and buttons in seconds. Accept cards, USSD, bank transfers, and crypto.</p>
     <a href="#form" class="btn btn-primary">Get Started Now</a>
     <div class="powered-by"><span>Powered by</span><img src="paystack.png" alt="Paystack"></div>
+    <p id="authStatus">Not authenticated</p>
+    <p id="g_id_onload_error">Error: Google Sign-In failed to load. Check console for details.</p>
+  </div>
+  <div class="container" id="form">
     <!-- Google Sign-In Button -->
     <div id="g_id_onload"
          data-client_id="451520720939-trure38mv7dqbq54ce2o5ci9vofcj7v6.apps.googleusercontent.com"
@@ -281,67 +293,67 @@
          data-auto_prompt="false"
          data-nonce="random_nonce_123">
     </div>
-    <!-- Google Sign-In Button -->
-<!-- Google Sign-In Configuration -->
-<div id="g_id_onload"
-     data-client_id="451520720939-trure38mv7dqbq54ce2o5ci9vofcj7v6.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false"
-     data-nonce="random_nonce_123">
-</div>
-
-<!-- Visible Google Sign-In Button -->
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="sign_in_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div>
-
-<p id="authStatus">Not authenticated</p>
-
-  </div>
-  <div class="container" id="form">
-    <h2>Create Your Payment Link</h2>
-    <form id="paymentForm">
-      <div class="mb-3"><label for="businessName" class="form-label">Business Name</label><input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required></div>
-      <div class="mb-3"><label for="productName" class="form-label">Product/Service Name</label><input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required></div>
-      <div class="mb-3"><label for="amount" class="form-label">Price (₦)</label><input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required></div>
-      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="nairaEnabled" onchange="toggleNairaFields()"><label class="form-check-label" for="nairaEnabled">Enable Naira Payment (Paystack)</label></div>
-      <div class="naira-fields" id="nairaFields">
-        <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456"></div>
-      </div>
-      <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
-      <div class="crypto-fields" id="cryptoFields">
-        <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890"></div>
-        <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList"><datalist id="bankList"></datalist></div>
-      </div>
-      <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
-      <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
-    </form>
-    <div id="result">
-      <h5>Payment Link</h5><textarea id="paymentLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('paymentLink')">Copy</button>
-      <h5>Branded "Pay Now" Button</h5><textarea id="buttonCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('buttonCode')">Copy</button>
-      <h5>WhatsApp Share Link</h5><textarea id="whatsappLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('whatsappLink')">Copy</button>
-      <h5>Iframe Embed Code</h5><textarea id="iframeCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('iframeCode')">Copy</button>
-      <p class="analytics-teaser">Track clicks and conversions with our premium plan (coming soon).</p>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-size="large"
+         data-logo_alignment="left">
     </div>
-    <div class="guide"><p>Need a Paystack key? <a href="https://paystack.com" target="_blank">Sign up free in 5 minutes</a>.</p><p>Find your public key in Paystack Dashboard > Settings > API Keys.</p></div>
+    <!-- Form Content (Hidden by Default) -->
+    <div class="form-content">
+      <h2>Create Your Payment Link</h2>
+      <form id="paymentForm">
+        <div class="mb-3"><label for="businessName" class="form-label">Business Name</label><input type="text" class="form-control" id="businessName" placeholder="e.g., Demo Business" required></div>
+        <div class="mb-3"><label for="productName" class="form-label">Product/Service Name</label><input type="text" class="form-control" id="productName" placeholder="e.g., Consulting Session" required></div>
+        <div class="mb-3"><label for="amount" class="form-label">Price (₦)</label><input type="number" class="form-control" id="amount" placeholder="e.g., 50000" required></div>
+        <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="nairaEnabled" onchange="toggleNairaFields()"><label class="form-check-label" for="nairaEnabled">Enable Naira Payment (Paystack)</label></div>
+        <div class="naira-fields" id="nairaFields">
+          <div class="mb-3"><label for="paystackKey" class="form-label">Paystack Public Key</label><input type="text" class="form-control" id="paystackKey" placeholder="e.g., pk_live_abcdef123456"></div>
+        </div>
+        <div class="mb-3 form-check"><input type="checkbox" class="form-check-input" id="cryptoEnabled" onchange="toggleCryptoFields()"><label class="form-check-label" for="cryptoEnabled">Enable Crypto Payments (Bitcoin, USDT)</label></div>
+        <div class="crypto-fields" id="cryptoFields">
+          <div class="mb-3"><label for="accountNumber" class="form-label">Account Number</label><input type="text" class="form-control" id="accountNumber" placeholder="e.g., 1234567890"></div>
+          <div class="mb-3"><label for="bankName" class="form-label">Bank Name</label><input type="text" class="form-control" id="bankName" placeholder="e.g., First Bank" list="bankList"><datalist id="bankList"></datalist></div>
+        </div>
+        <div class="mb-3"><label for="buttonColor" class="form-label">Button Color</label><select class="form-select" id="buttonColor"><option value="primary">Primary (Blue)</option><option value="secondary">Secondary (Gray)</option><option value="success">Success (Green)</option><option value="danger">Danger (Red)</option><option value="warning">Yellow</option><option value="info">Info (Cyan)</option><option value="dark">Dark (Black)</option></select></div>
+        <button type="submit" class="btn btn-primary w-100">Generate Payment Link & Button</button>
+      </form>
+      <div id="result">
+        <h5>Payment Link</h5><textarea id="paymentLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('paymentLink')">Copy</button>
+        <h5>Branded "Pay Now" Button</h5><textarea id="buttonCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('buttonCode')">Copy</button>
+        <h5>WhatsApp Share Link</h5><textarea id="whatsappLink" rows="2" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('whatsappLink')">Copy</button>
+        <h5>Iframe Embed Code</h5><textarea id="iframeCode" rows="4" readonly></textarea><button class="btn btn-copy" onclick="copyToClipboard('iframeCode')">Copy</button>
+        <p class="analytics-teaser">Track clicks and conversions with our premium plan (coming soon).</p>
+      </div>
+      <div class="guide"><p>Need a Paystack key? <a href="https://paystack.com" target="_blank">Sign up free in 5 minutes</a>.</p><p>Find your public key in Paystack Dashboard > Settings > API Keys.</p></div>
+    </div>
   </div>
   <footer><p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p></footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="onScriptLoad()" onerror="onScriptError()"></script>
   <script>
+    let isScriptLoaded = false;
+
+    function onScriptLoad() {
+      console.log('Google Sign-In SDK loaded successfully');
+      isScriptLoaded = true;
+      document.getElementById('g_id_onload_error').style.display = 'none';
+    }
+
+    function onScriptError() {
+      console.error('Failed to load Google Sign-In SDK');
+      document.getElementById('g_id_onload_error').style.display = 'block';
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       const cookiePopup = document.getElementById('cookiePopup');
       if (!getCookie('cookieConsent')) cookiePopup.style.display = 'block';
 
-      // Check authentication status on load
       const authToken = localStorage.getItem('googleAuthToken');
       if (authToken) {
-        document.getElementById('form').classList.add('authenticated');
+        document.querySelector('.form-content').classList.add('authenticated');
         document.getElementById('authStatus').textContent = 'Authenticated';
       } else {
         document.getElementById('authStatus').textContent = 'Not authenticated';
@@ -508,9 +520,10 @@
     // Google Authentication Callback
     function handleCredentialResponse(response) {
       const token = response.credential;
+      console.log('Auth Response:', response);
       if (token) {
         localStorage.setItem('googleAuthToken', token);
-        document.getElementById('form').classList.add('authenticated');
+        document.querySelector('.form-content').classList.add('authenticated');
         document.getElementById('authStatus').textContent = 'Authenticated successfully';
       } else {
         document.getElementById('authStatus').textContent = 'Authentication failed';
