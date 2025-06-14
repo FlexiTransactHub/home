@@ -99,6 +99,10 @@
       max-width: 600px;
       margin: 40px auto;
       animation: fadeIn 0.5s ease-in;
+      display: none; /* Hidden until authenticated */
+    }
+    .container.authenticated {
+      display: block; /* Shown after authentication */
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -234,6 +238,11 @@
       background: #6B7280;
       color: #FFFFFF;
     }
+    #authStatus {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -251,7 +260,7 @@
           <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="api.html">API Options</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link active" href="book.html">Book a Meeting</a></li>
+          <li class="nav-item"><a class="nav-link" href="book.html">Book a Meeting</a></li>
           <li class="nav-item"><a class="nav-link" href="help.html"><span style="font-size: 1.1em;">?</span></a></li>
         </ul>
       </div>
@@ -265,6 +274,14 @@
     <p>Create professional payment links and buttons in seconds. Accept cards, USSD, bank transfers, and crypto.</p>
     <a href="#form" class="btn btn-primary">Get Started Now</a>
     <div class="powered-by"><span>Powered by</span><img src="paystack.png" alt="Paystack"></div>
+    <!-- Google Sign-In Button -->
+    <div id="g_id_onload"
+         data-client_id="Y451520720939-trure38mv7dqbq54ce2o5ci9vofcj7v6.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false"
+         data-nonce="random_nonce_123">
+    </div>
+    <p id="authStatus">Not authenticated</p>
   </div>
   <div class="container" id="form">
     <h2>Create Your Payment Link</h2>
@@ -295,21 +312,61 @@
   </div>
   <footer><p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p></footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const cookiePopup = document.getElementById('cookiePopup');
       if (!getCookie('cookieConsent')) cookiePopup.style.display = 'block';
+
+      // Check authentication status on load
+      const authToken = localStorage.getItem('googleAuthToken');
+      if (authToken) {
+        document.getElementById('form').classList.add('authenticated');
+        document.getElementById('authStatus').textContent = 'Authenticated';
+      } else {
+        document.getElementById('authStatus').textContent = 'Not authenticated';
+      }
     });
 
-    function acceptCookies() { setCookie('cookieConsent', 'accepted', 365); document.getElementById('cookiePopup').style.display = 'none'; }
-    function declineCookies() { setCookie('cookieConsent', 'declined', 365); document.getElementById('cookiePopup').style.display = 'none'; alert('Some features may not work without cookies.'); }
-    function getCookie(name) { const value = `; ${document.cookie}`; const parts = value.split(`; ${name}=`); return parts.length === 2 ? parts.pop().split(';').shift() : null; }
-    function setCookie(name, value, days) { const date = new Date(); date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`; }
+    function acceptCookies() {
+      setCookie('cookieConsent', 'accepted', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+    }
 
-    const savedBusinessName = getCookie('businessName'); if (savedBusinessName) document.getElementById('businessName').value = savedBusinessName;
-    const savedPaystackKey = getCookie('paystackKey'); if (savedPaystackKey) document.getElementById('paystackKey').value = savedPaystackKey;
+    function declineCookies() {
+      setCookie('cookieConsent', 'declined', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+      alert('Some features may not work without cookies.');
+    }
 
-    function copyToClipboard(elementId) { const textarea = document.getElementById(elementId); textarea.select(); try { document.execCommand('copy'); alert('Copied to clipboard!'); } catch (err) { alert('Failed to copy. Please copy manually.'); } }
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    }
+
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+    }
+
+    const savedBusinessName = getCookie('businessName');
+    if (savedBusinessName) document.getElementById('businessName').value = savedBusinessName;
+
+    const savedPaystackKey = getCookie('paystackKey');
+    if (savedPaystackKey) document.getElementById('paystackKey').value = savedPaystackKey;
+
+    function copyToClipboard(elementId) {
+      const textarea = document.getElementById(elementId);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      } catch (err) {
+        alert('Failed to copy. Please copy manually.');
+      }
+    }
 
     function toggleCryptoFields() {
       const cryptoFields = document.getElementById('cryptoFields');
@@ -326,7 +383,24 @@
       document.getElementById('paystackKey').required = nairaEnabled;
     }
 
-    async function fetchBankList() { try { const response = await fetch('https://api.paystack.co/bank', { headers: { 'Authorization': `Bearer ${process.env.PAYSTACK_SECRET_KEY || 'pk_test_123456789'}`, 'Content-Type': 'application/json' } }); const data = await response.json(); const bankList = document.getElementById('bankList'); bankList.innerHTML = ''; data.data.forEach(bank => { const option = document.createElement('option'); option.value = bank.name; bankList.appendChild(option); }); } catch (error) { console.error('Error fetching bank list:', error); } }
+    async function fetchBankList() {
+      try {
+        const response = await fetch('https://api.paystack.co/bank', {
+          headers: { 'Authorization': `Bearer ${'pk_test_123456789'}`, 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        const bankList = document.getElementById('bankList');
+        bankList.innerHTML = '';
+        data.data.forEach(bank => {
+          const option = document.createElement('option');
+          option.value = bank.name;
+          bankList.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error fetching bank list:', error);
+      }
+    }
+    fetchBankList();
 
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -352,7 +426,7 @@
 
       const paystackRegex = /^(pk|sk)_(test|live)_[a-zA-Z0-9]{20,45}$/;
       if (nairaEnabled && !paystackRegex.test(paystackKey)) {
-        alert('Invalid Paystack key. Learn how to get a Paystack key?', 'https://www.youtube.com/watch?v=example'); // Replace with actual YouTube URL
+        alert('Invalid Paystack key. Learn how to get a Paystack key?');
         return;
       }
 
@@ -411,9 +485,17 @@
       });
     });
 
-    //rechange
-    // Call fetchBankList on load if needed
-    // document.addEventListener('DOMContentLoaded', fetchBankList);
+    // Google Authentication Callback
+    function handleCredentialResponse(response) {
+      const token = response.credential;
+      if (token) {
+        localStorage.setItem('googleAuthToken', token);
+        document.getElementById('form').classList.add('authenticated');
+        document.getElementById('authStatus').textContent = 'Authenticated successfully';
+      } else {
+        document.getElementById('authStatus').textContent = 'Authentication failed';
+      }
+    }
   </script>
 </body>
 </html>
