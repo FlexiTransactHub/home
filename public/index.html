@@ -235,9 +235,14 @@
       color: #FFFFFF;
     }
     #authStatus {
-      color: red;
       text-align: center;
       margin-top: 10px;
+    }
+    #authStatus.authenticated {
+      color: #00FF00; /* Green for authenticated */
+    }
+    #authStatus.not-authenticated {
+      color: #FF0000; /* Red for not authenticated */
     }
     #g_id_onload_error {
       color: #FF0000;
@@ -282,7 +287,7 @@
     <p>Create professional payment links and buttons in seconds. Accept cards, USSD, bank transfers, and crypto.</p>
     <a href="#form" class="btn btn-primary">Get Started Now</a>
     <div class="powered-by"><span>Powered by</span><img src="paystack.png" alt="Paystack"></div>
-    <p id="authStatus">Not authenticated</p>
+    <p id="authStatus" class="not-authenticated">Not authenticated</p>
     <p id="g_id_onload_error">Error: Google Sign-In failed to load. Check console for details.</p>
   </div>
   <div class="container" id="form">
@@ -352,11 +357,16 @@
       if (!getCookie('cookieConsent')) cookiePopup.style.display = 'block';
 
       const authToken = localStorage.getItem('googleAuthToken');
+      const authStatus = document.getElementById('authStatus');
       if (authToken) {
         document.querySelector('.form-content').classList.add('authenticated');
-        document.getElementById('authStatus').textContent = 'Authenticated';
+        authStatus.textContent = 'Authenticated';
+        authStatus.classList.remove('not-authenticated');
+        authStatus.classList.add('authenticated');
       } else {
-        document.getElementById('authStatus').textContent = 'Not authenticated';
+        authStatus.textContent = 'Not authenticated';
+        authStatus.classList.remove('authenticated');
+        authStatus.classList.add('not-authenticated');
       }
     });
 
@@ -521,12 +531,17 @@
     function handleCredentialResponse(response) {
       const token = response.credential;
       console.log('Auth Response:', response);
+      const authStatus = document.getElementById('authStatus');
       if (token) {
         localStorage.setItem('googleAuthToken', token);
         document.querySelector('.form-content').classList.add('authenticated');
-        document.getElementById('authStatus').textContent = 'Authenticated successfully';
+        authStatus.textContent = 'Authenticated successfully';
+        authStatus.classList.remove('not-authenticated');
+        authStatus.classList.add('authenticated');
       } else {
-        document.getElementById('authStatus').textContent = 'Authentication failed';
+        authStatus.textContent = 'Authentication failed';
+        authStatus.classList.remove('authenticated');
+        authStatus.classList.add('not-authenticated');
       }
     }
   </script>
