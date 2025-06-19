@@ -293,7 +293,7 @@
   <div class="container" id="form">
     <!-- Google Sign-In Button -->
     <div id="g_id_onload"
-         data-client_id="451520720939-trure38mv7dqbq54ce2o5ci9vofcj7v6.apps.googleusercontent.com"
+         data-client_id="451520720939-b66ol596v423kpchmdboj0tti7ql4kfv.apps.googleusercontent.com"
          data-callback="handleCredentialResponse"
          data-auto_prompt="false"
          data-nonce="random_nonce_123">
@@ -493,22 +493,30 @@
       document.getElementById('iframeCode').value = iframeCode;
       document.getElementById('result').style.display = 'block';
 
-      // Google Sheets API (Hardcoded for testing)
-      const googleSheetsApiKey = 'AIzaSyDWG-D6p4qB26Z3C_yk_xhXTwdNi68oh1k'; // Replace with your API key
-      const spreadsheetId = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
-      const range = 'Products!A:I';
-      const values = [[userId, businessName, productName, amount, paystackKey, cryptoEnabled, accountNumber || '', bankName || '', new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })]];
-      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=RAW&key=${googleSheetsApiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ values })
-      }).then(response => response.json()).then(data => {
-        console.log('Google Sheets Response:', data);
-        if (data.error) console.error('Google Sheets Error:', data.error.message);
-        else console.log('Data saved to Google Sheets');
-      }).catch(error => {
-        console.error('Google Sheets Error:', error);
-      });
+      // Google Sheets API with OAuth
+      const accessToken = localStorage.getItem('googleSheetsAccessToken');
+      if (accessToken) {
+        const spreadsheetId = '1Im87heVURQ5cMcWL29iyS8I9NCmbAwEwNdxQULjJK9c';
+        const range = 'Products!A:I';
+        const values = [[userId, businessName, productName, amount, paystackKey, cryptoEnabled, accountNumber || '', bankName || '', new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })]];
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=RAW`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ values }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Google Sheets Response:', data);
+          if (data.error) console.error('Google Sheets Error:', data.error.message);
+          else console.log('Data saved to Google Sheets');
+        })
+        .catch(error => console.error('Google Sheets Error:', error));
+      } else {
+        console.error('No access token available. Please re-authenticate.');
+      }
 
       // Telegram Notification (Hardcoded)
       const telegramBotToken = '8129183386:AAF3GtzmXXU_YXqO_1T_h1-lKn3r0ZjtSpw';
@@ -538,6 +546,28 @@
         authStatus.textContent = 'Authenticated successfully';
         authStatus.classList.remove('not-authenticated');
         authStatus.classList.add('authenticated');
+
+        // Exchange ID token for access token with Sheets scope
+        fetch('https://oauth2.googleapis.com/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+            client_id: '451520720939-b66ol596v423kpchmdboj0tti7ql4kfv.apps.googleusercontent.com',
+            id_token: token,
+            scope: 'https://www.googleapis.com/auth/spreadsheets',
+          }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.access_token) {
+            localStorage.setItem('googleSheetsAccessToken', data.access_token);
+            console.log('Access token obtained:', data.access_token);
+          } else {
+            console.error('Failed to obtain access token:', data);
+          }
+        })
+        .catch(error => console.error('Token exchange error:', error));
       } else {
         authStatus.textContent = 'Authentication failed';
         authStatus.classList.remove('authenticated');
