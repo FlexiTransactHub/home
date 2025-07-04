@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - FlexiTransact</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="ftlogo.png" type="image/png">
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "rq3x9ftpx3");
+  </script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1E3A8A 0%, #93C5FD 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .navbar {
+      background: #1E3A8A;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+    .navbar-brand img {
+      height: 24px;
+      width: 24%;
+      margin-right: 10px;
+    }
+    .nav-link {
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+    .nav-link:hover {
+      color: #3B82F6 !important;
+    }
+    .button-section {
+      background: #1E3A8A;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .btn-traditional {
+      background: #E5E7EB;
+      border: 2px solid #4B5563;
+      color: #1E3A8A;
+      font-weight: 600;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .btn-traditional:hover {
+      background: #D1D5DB;
+      transform: scale(1.05);
+    }
+    .btn-traditional.active {
+      background: #3B82F6;
+      color: #FFFFFF;
+      border-color: #1E40AF;
+    }
+    .container {
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      padding: 40px;
+      max-width: 1200px;
+      margin: 40px auto;
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      font-size: 1.8rem;
+      color: #1E3A8A;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .product-card, .item-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover, .item-card:hover {
+      transform: scale(1.02);
+    }
+    .price {
+      color: #3B82F6;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    footer {
+      background: #1E3A8A;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      font-size: 0.85rem;
+    }
+    footer p {
+      margin: 0;
+    }
+    #cookiePopup {
+      position: fixed;
+      top: 100px;
+      left: 20px;
+      right: 20px;
+      background: #FFFFFF;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      text-align: center;
+      display: none;
+    }
+    #cookiePopup button {
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    #cookiePopup .btn-accept {
+      background: #3B82F6;
+      color: #FFFFFF;
+    }
+    #cookiePopup .btn-decline {
+      background: #6B7280;
+      color: #FFFFFF;
+    }
+    .content-section {
+      display: none;
+    }
+    .content-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="ftlogo.png" alt="FlexiTransact Logo">
+        FlexiTransact
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="api.html">API Options</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="book.html">Book a Meeting</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html"><span style="font-size: 1.1em;">?</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div id="cookiePopup">
+    <p>This page uses cookies to enhance your experience. <button class="btn-accept" onclick="acceptCookies()">Accept</button><button class="btn-decline" onclick="declineCookies()">Decline</button></p>
+  </div>
+  <div class="button-section">
+    <button class="btn-traditional active" onclick="showContent('hardware')">Hardware</button>
+    <button class="btn-traditional" onclick="showContent('software')">Software</button>
+    <button class="btn-traditional" onclick="showContent('services')">Services</button>
+  </div>
+  <div class="container">
+    <div id="hardware" class="content-section active">
+      <h2>Hardware Solutions</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1516321318423-3514e717e22b" alt="POS Terminal">
+            <h3>POS Terminal</h3>
+            <p>Advanced POS terminal for seamless payment processing.</p>
+            <p class="price">₦150,000</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1583946099907-1f616a1cb0e4" alt="Card Reader">
+            <h3>Card Reader</h3>
+            <p>Compact card reader for contactless payments.</p>
+            <p class="price">₦50,000</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="ATM Machine">
+            <h3>ATM Machine</h3>
+            <p>Secure and reliable ATM for cash withdrawals.</p>
+            <p class="price">₦1,200,000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="software" class="content-section">
+      <h2>Software Solutions</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="item-card">
+            <h3>Payment Gateway Software</h3>
+            <p>Secure software for online payment processing with multi-currency support.</p>
+            <p class="price">₦500,000/year</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="item-card">
+            <h3>Mobile Banking App</h3>
+            <p>User-friendly app for managing transactions on the go.</p>
+            <p class="price">₦300,000/year</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="services" class="content-section">
+      <h2>Our Services</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="item-card">
+            <h3>Payment Integration Services</h3>
+            <p>Seamless integration of payment solutions for your business.</p>
+            <p class="price">Contact for Quote</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="item-card">
+            <h3>Transaction Support</h3>
+            <p>24/7 support for transaction-related issues and queries.</p>
+            <p class="price">₦100,000/month</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>Contact Us: info@flexitransact.com.ng | 123 Lagos Street, Ikeja, Lagos, Nigeria</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cookiePopup = document.getElementById('cookiePopup');
+      if (!getCookie('cookieConsent')) cookiePopup.style.display = 'block';
+    });
+
+    function acceptCookies() {
+      setCookie('cookieConsent', 'accepted', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+    }
+
+    function declineCookies() {
+      setCookie('cookieConsent', 'declined', 365);
+      document.getElementById('cookiePopup').style.display = 'none';
+      alert('Some features may not work without cookies.');
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    }
+
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+    }
+
+    function showContent(sectionId) {
+      // Hide all content sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      // Show selected section
+      document.getElementById(sectionId).classList.add('active');
+      // Update button states
+      document.querySelectorAll('.btn-traditional').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`button[onclick="showContent('${sectionId}')"]`).classList.add('active');
+    }
+  </script>
+</body>
+</html>
