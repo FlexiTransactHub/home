@@ -12,10 +12,11 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #2c3e50;
-            background: #fdfcfb;
+            background: #ffffff;
+            overflow-x: hidden;
         }
 
         .container {
@@ -24,15 +25,66 @@
             padding: 0 20px;
         }
 
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
         /* Header */
         header {
-            background: #1877f2;
-            color: #ffffff;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 71, 171, 0.1);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 2px solid #0a58ca;
+            border-bottom: 2px solid #0047AB;
+            animation: slideInLeft 0.6s ease-out;
         }
 
         .header-content {
@@ -42,11 +94,35 @@
             flex-wrap: wrap;
         }
 
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            background: #0047AB;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #0047AB;
         }
 
         nav ul {
@@ -57,58 +133,104 @@
         }
 
         nav a {
-            color: #ffffff;
+            color: #2c3e50;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
             font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0047AB;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         nav a:hover {
-            color: #e4e6eb;
+            color: #0047AB;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1877f2 0%, #0a58ca 100%);
+            background: linear-gradient(135deg, #0047AB 0%, #003d8f 100%);
             color: #ffffff;
             padding: 8rem 0 6rem;
             text-align: center;
-            border-bottom: 3px solid #0a58ca;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 3px;
+            font-weight: 700;
+            letter-spacing: 1px;
             line-height: 1.2;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .hero p {
             font-size: 1.3rem;
             max-width: 700px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
             font-weight: 300;
             color: #ffffff;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .cta-button {
             display: inline-block;
             padding: 1rem 2.5rem;
             background: #ffffff;
-            color: #1877f2;
+            color: #0047AB;
             text-decoration: none;
             border: 2px solid #ffffff;
+            border-radius: 50px;
             transition: all 0.3s;
             font-size: 1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             margin: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .cta-button:hover {
             background: transparent;
             color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
         .cta-secondary {
@@ -118,7 +240,7 @@
 
         .cta-secondary:hover {
             background: #ffffff;
-            color: #1877f2;
+            color: #0047AB;
         }
 
         /* Section Styling */
@@ -128,26 +250,38 @@
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: #1a1a1a;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #0047AB;
             position: relative;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .section-title::after {
             content: '';
             display: block;
             width: 80px;
-            height: 3px;
-            background: #1877f2;
+            height: 4px;
+            background: #0047AB;
             margin: 1rem auto 0;
+            border-radius: 2px;
         }
 
         /* Products Section */
         .products {
-            background: #f8f6f0;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
         }
 
         .product-grid {
@@ -158,76 +292,122 @@
 
         .product-card {
             background: white;
-            padding: 2rem;
-            border: 1px solid #e0ddd4;
-            transition: all 0.3s;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 71, 171, 0.08);
+            transition: all 0.4s ease;
             text-align: center;
+            border: 1px solid rgba(0, 71, 171, 0.1);
+            animation: fadeInUp 0.6s ease-out both;
         }
 
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-color: #1877f2;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 71, 171, 0.15);
+            border-color: #0047AB;
         }
 
         .product-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #1877f2;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .product-card:hover .product-icon {
+            animation: pulse 0.5s ease;
         }
 
         .product-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 1rem;
-            font-weight: 400;
-            color: #1a1a1a;
+            font-weight: 600;
+            color: #0047AB;
         }
 
         .product-card p {
             color: #666;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         /* Services Section */
+        .services {
+            background: #ffffff;
+        }
+
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
         .service-item {
-            padding: 1.5rem;
-            background: #f8f6f0;
-            border-left: 4px solid #d4af37;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            border-left: 4px solid #0047AB;
             transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            animation: slideInLeft 0.6s ease-out both;
         }
+
+        .service-item:nth-child(1) { animation-delay: 0.1s; }
+        .service-item:nth-child(2) { animation-delay: 0.2s; }
+        .service-item:nth-child(3) { animation-delay: 0.3s; }
+        .service-item:nth-child(4) { animation-delay: 0.4s; }
 
         .service-item:hover {
             background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 71, 171, 0.12);
+            transform: translateX(5px);
+            border-left-width: 6px;
         }
 
         .service-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
-            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: #0047AB;
+            font-weight: 600;
         }
 
         .service-item p {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         /* Why Choose Us */
         .why-choose {
-            background: #1a1a1a;
-            color: #f4f1ea;
+            background: linear-gradient(135deg, #0047AB 0%, #003d8f 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-choose::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
         }
 
         .why-choose .section-title {
-            color: #d4af37;
+            color: #ffffff;
+        }
+
+        .why-choose .section-subtitle {
+            color: rgba(255,255,255,0.9);
         }
 
         .features-grid {
@@ -235,49 +415,64 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .feature-box {
             text-align: center;
-            padding: 2rem;
-            border: 1px solid #333;
+            padding: 2.5rem;
+            border-radius: 15px;
             transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.8s ease-out both;
         }
 
+        .feature-box:nth-child(1) { animation-delay: 0.2s; }
+        .feature-box:nth-child(2) { animation-delay: 0.4s; }
+        .feature-box:nth-child(3) { animation-delay: 0.6s; }
+        .feature-box:nth-child(4) { animation-delay: 0.8s; }
+
         .feature-box:hover {
-            border-color: #d4af37;
-            background: #222;
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .feature-icon {
-            font-size: 3rem;
-            color: #d4af37;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
         }
 
         .feature-box h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 1rem;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         .feature-box p {
-            color: #ccc;
+            color: rgba(255,255,255,0.9);
             font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         /* About Section */
         .about {
-            background: #f8f6f0;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
         }
 
         .about-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.15rem;
+            line-height: 1.9;
             color: #444;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .about-content p {
@@ -286,31 +481,54 @@
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #2c3e50 0%, #1a1a1a 100%);
-            color: #f4f1ea;
+            background: linear-gradient(135deg, #0047AB 0%, #003d8f 100%);
+            color: #ffffff;
             text-align: center;
             padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
         }
 
         .cta-section h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            font-weight: 300;
-            letter-spacing: 2px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
         }
 
         .cta-section p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #d4af37;
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.95);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .cta-section .cta-buttons {
+            position: relative;
+            z-index: 1;
         }
 
         /* Footer */
         footer {
-            background: #1a1a1a;
-            color: #f4f1ea;
+            background: #1a1a2e;
+            color: #ffffff;
             padding: 3rem 0 1rem;
-            border-top: 2px solid #d4af37;
         }
 
         .footer-content {
@@ -321,10 +539,10 @@
         }
 
         .footer-section h3 {
-            color: #d4af37;
+            color: #0047AB;
             margin-bottom: 1rem;
             font-size: 1.2rem;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         .footer-section ul {
@@ -332,17 +550,23 @@
         }
 
         .footer-section ul li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.7rem;
         }
 
         .footer-section a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
         }
 
         .footer-section a:hover {
-            color: #d4af37;
+            color: #0047AB;
+            padding-left: 5px;
+        }
+
+        .footer-section p {
+            color: #ccc;
+            line-height: 1.7;
         }
 
         .social-links {
@@ -352,18 +576,24 @@
         }
 
         .social-links a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 1px solid #d4af37;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #0047AB;
+            border-radius: 50%;
             text-align: center;
-            line-height: 40px;
             transition: all 0.3s;
+            color: #0047AB;
+            font-weight: bold;
         }
 
         .social-links a:hover {
-            background: #d4af37;
-            color: #1a1a1a;
+            background: #0047AB;
+            color: white;
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(0, 71, 171, 0.3);
         }
 
         .footer-bottom {
@@ -371,12 +601,13 @@
             padding-top: 2rem;
             border-top: 1px solid #333;
             color: #888;
+            font-size: 0.9rem;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .hero p {
@@ -402,6 +633,10 @@
                 display: block;
                 margin: 0.5rem auto;
             }
+
+            .cta-section h2 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -409,7 +644,10 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">FLEXI TRANSACT</div>
+                <div class="logo-container">
+                    <div class="logo-image"><img src="logo.png" alt="FT" width="100%"></div>
+                    <div class="logo">FLEXI TRANSACT</div>
+                </div>
                 <nav>
                     <ul>
                         <li><a href="#products">Products</a></li>
@@ -425,16 +663,21 @@
 
     <section class="hero">
         <div class="container">
-            <h1>PREMIUM FINTECH SOLUTIONS</h1>
-            <p>Empowering businesses with cutting-edge payment technology, custom software, and comprehensive digital transformation services</p>
-            <a href="#contact" class="cta-button">Request a Demo</a>
-            <a href="#products" class="cta-button cta-secondary">Explore Products</a>
+            <div class="hero-content">
+                <h1>PREMIUM FINTECH SOLUTIONS</h1>
+                <p>Empowering businesses with cutting-edge payment technology, custom software, and comprehensive digital transformation services</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="cta-button">Request a Demo</a>
+                    <a href="#products" class="cta-button cta-secondary">Explore Products</a>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="products" class="products">
         <div class="container">
             <h2 class="section-title">Our Products</h2>
+            <p class="section-subtitle">Innovative solutions designed to transform your business operations</p>
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-icon">📱</div>
@@ -493,6 +736,7 @@
     <section id="services" class="services">
         <div class="container">
             <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Comprehensive support from installation to digital transformation</p>
             <div class="services-grid">
                 <div class="service-item">
                     <h3>POS Installation</h3>
@@ -533,6 +777,7 @@
     <section id="why-us" class="why-choose">
         <div class="container">
             <h2 class="section-title">Why Choose Flexi Transact</h2>
+            <p class="section-subtitle">Excellence in every aspect of our service delivery</p>
             <div class="features-grid">
                 <div class="feature-box">
                     <div class="feature-icon">⚡</div>
@@ -572,8 +817,10 @@
         <div class="container">
             <h2>Ready to Transform Your Business?</h2>
             <p>Join hundreds of businesses already using Flexi Transact solutions</p>
-            <a href="mailto:info@flexitransact.com" class="cta-button">Contact Us Today</a>
-            <a href="#products" class="cta-button cta-secondary">Request a Device</a>
+            <div class="cta-buttons">
+                <a href="mailto:info@flexitransact.com" class="cta-button">Contact Us Today</a>
+                <a href="#products" class="cta-button cta-secondary">Request a Device</a>
+            </div>
         </div>
     </section>
 
@@ -584,10 +831,10 @@
                     <h3>Flexi Transact</h3>
                     <p>Premium Fintech Solutions for Modern Businesses</p>
                     <div class="social-links">
-                        <a href="#">F</a>
-                        <a href="#">T</a>
-                        <a href="#">L</a>
-                        <a href="#">I</a>
+                        <a href="#" aria-label="Facebook">F</a>
+                        <a href="#" aria-label="Twitter">T</a>
+                        <a href="#" aria-label="LinkedIn">L</a>
+                        <a href="#" aria-label="Instagram">I</a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -605,20 +852,20 @@
                         <li><a href="#">POS Devices</a></li>
                         <li><a href="#">Custom Software</a></li>
                         <li><a href="#">Payment Integration</a></li>
-                        <li><a href="#">Agency Banking</a></li>
+                        <li><a href="#">Agency</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
                     <ul>
-                        <li>Email: info@flexitransact.com</li>
-                        <li>Phone: +234 XXX XXX XXXX</li>
-                        <li>Address: Lagos, Nigeria</li>
+                        <li>Email: flexitransacthq@gmail.com</li>
+                        <li>Phone: +234 702 503 6580</li>
+                        <li>Address: Kola, Lagos, Nigeria</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Flexi Transact. All rights reserved. | Premium Fintech Solutions</p>
+                <p>&copy; 2025 Flexi Transact. All rights reserved. | Premium Fintech Solutions</p>
             </div>
         </div>
     </footer>
